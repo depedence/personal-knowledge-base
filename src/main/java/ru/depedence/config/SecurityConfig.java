@@ -3,6 +3,7 @@ package ru.depedence.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -12,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import ru.depedence.entity.User;
 import ru.depedence.entity.UserRole;
 import ru.depedence.repository.UserRepository;
@@ -35,41 +37,20 @@ public class SecurityConfig {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/**").permitAll()  // РАЗРЕШИТЬ ВСЕ БЕЗ ИСКЛЮЧЕНИЙ
+                        .requestMatchers("/login", "/registration").permitAll()
+                        .requestMatchers("/", "/public/**", "/css/**", "/js/**", "/images/**", "/favicon.ico").permitAll()
+                        .requestMatchers("/api/public/**").permitAll()
+                        .anyRequest().authenticated()
                 )
-                .formLogin(AbstractHttpConfigurer::disable)  // ОТКЛЮЧИТЬ ФОРМУ ЛОГИНА
-                .logout(AbstractHttpConfigurer::disable)     // ОТКЛЮЧИТЬ ЛОГАУТ
+                .formLogin(AbstractHttpConfigurer::disable)
+                .logout(AbstractHttpConfigurer::disable)
+                .exceptionHandling(exceptions -> exceptions
+                        .authenticationEntryPoint((request, response, authException) -> {
+                            response.sendRedirect("/login");
+                        })
+                )
                 .build();
     }
-
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        return http
-//                .csrf(AbstractHttpConfigurer::disable)
-//                .authorizeHttpRequests(auth -> auth
-//                        .requestMatchers("/", "/registration", "/error", "/login").permitAll()
-//                        .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
-//                        .requestMatchers("/account", "/account/**")
-//                        .hasAnyRole(UserRole.USER.name(), UserRole.ADMIN.name())
-//                        .requestMatchers("/admin", "/admin/**")
-//                        .hasAnyRole(UserRole.ADMIN.name())
-//                        .anyRequest().authenticated()
-//                )
-//                .formLogin(form -> form
-//                        .loginPage("/login")
-//                        .permitAll()
-//                        .usernameParameter("username")
-//                        .passwordParameter("password")
-//                        .defaultSuccessUrl("/account")
-//                        .failureUrl("/login?error=true")
-//                )
-//                .logout(logout -> logout
-//                        .logoutUrl("/logout")
-//                        .logoutSuccessUrl("/login?logout=true")
-//                        .permitAll()
-//                )
-//                .build();
-//    }
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {

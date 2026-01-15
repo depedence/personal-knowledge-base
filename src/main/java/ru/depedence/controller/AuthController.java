@@ -36,12 +36,12 @@ public class AuthController {
             model.addAttribute("isAuthFailed", true);
         }
 
-        return "/public/auth/login-page";
+        return "forward:/public/auth/login-page.html";
     }
 
     @GetMapping("/registration")
     public String getRegistrationPage() {
-        return "/public/auth/registration-page";
+        return "forward:/public/auth/registration-page.html";
     }
 
     @PostMapping("/registration")
@@ -49,7 +49,7 @@ public class AuthController {
         String encodedPassword = passwordEncoder.encode(password);
         userService.save(new User(username, encodedPassword, UserRole.USER));
         forceAutoLogin(username, password);
-        return "redirect:/account";
+        return "redirect:/account.html";
     }
 
     private void forceAutoLogin(String username, String password) {
