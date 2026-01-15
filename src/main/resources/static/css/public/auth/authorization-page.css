@@ -1,0 +1,200 @@
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Inter:wght@400;500;600&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    color: #2c3e50;
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+.page-wrapper {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.container {
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow:
+    0 10px 40px rgba(0, 0, 0, 0.08),
+    0 2px 8px rgba(0, 0, 0, 0.04);
+    padding: 3rem 2.5rem;
+    width: 100%;
+    max-width: 420px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.container:hover {
+    transform: translateY(-4px);
+    box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.12),
+    0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.header-container {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.header-container__text {
+    font-family: 'Merriweather', Georgia, serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1a2332;
+    letter-spacing: -0.5px;
+}
+
+.form-container__form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.form-container__input-wrapper {
+    position: relative;
+}
+
+.form-container__input {
+    width: 100%;
+    padding: 0.875rem 1.125rem;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9375rem;
+    color: #2c3e50;
+    background: #f8f9fa;
+    border: 2px solid #e9ecef;
+    border-radius: 10px;
+    outline: none;
+    transition: all 0.25s ease;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.03);
+}
+
+.form-container__input::placeholder {
+    color: #95a5a6;
+}
+
+.form-container__input:focus {
+    background: #ffffff;
+    border-color: #2d7a4f;
+    box-shadow:
+    inset 0 2px 4px rgba(0, 0, 0, 0.03),
+    0 0 0 4px rgba(45, 122, 79, 0.08);
+    transform: translateY(-1px);
+}
+
+.form-container__input:hover:not(:focus) {
+    border-color: #d1d8dd;
+}
+
+.form-container__warning-wrapper {
+    min-height: 1.25rem;
+    display: flex;
+    align-items: center;
+    margin-top: -0.5rem;
+}
+
+.form-container__warning {
+    font-size: 0.8125rem;
+    color: #e74c3c;
+    font-weight: 500;
+}
+
+.form-container__button-wrapper {
+    margin-top: 0.5rem;
+}
+
+.form-container__button {
+    width: 100%;
+    padding: 0.9375rem 1.5rem;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: #ffffff;
+    background: linear-gradient(135deg, #2d7a4f 0%, #25633f 100%);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    box-shadow:
+    0 4px 12px rgba(45, 122, 79, 0.25),
+    0 2px 4px rgba(0, 0, 0, 0.1);
+    letter-spacing: 0.3px;
+}
+
+.form-container__button:hover {
+    background: linear-gradient(135deg, #25633f 0%, #1d4d31 100%);
+    transform: translateY(-2px);
+    box-shadow:
+    0 8px 20px rgba(45, 122, 79, 0.3),
+    0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.form-container__button:active {
+    transform: translateY(0);
+    box-shadow:
+    0 2px 8px rgba(45, 122, 79, 0.3),
+    0 1px 4px rgba(0, 0, 0, 0.15);
+}
+
+.footer-link-container {
+    text-align: center;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #e9ecef;
+}
+
+.footer-link-container__text {
+    font-size: 0.875rem;
+    color: #5a6c7d;
+}
+
+.footer-link-container__link {
+    color: #2d7a4f;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s ease;
+    position: relative;
+}
+
+.footer-link-container__link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -2px;
+    left: 0;
+    background: #2d7a4f;
+    transition: width 0.25s ease;
+}
+
+.footer-link-container__link:hover {
+    color: #25633f;
+}
+
+.footer-link-container__link:hover::after {
+    width: 100%;
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 2rem 1.5rem;
+    }
+
+    .header-container__text {
+        font-size: 1.75rem;
+    }
+
+    .form-container__input,
+    .form-container__button {
+        font-size: 0.875rem;
+    }
+}
