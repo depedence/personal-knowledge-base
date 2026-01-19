@@ -49,7 +49,7 @@ public class SecurityConfig {
                         .loginProcessingUrl("/login")
                         .usernameParameter("username")
                         .passwordParameter("password")
-                        .defaultSuccessUrl("/private/account-page.html", true)
+                        .defaultSuccessUrl("/account", true)
                         .failureUrl("/login?error")
                         .permitAll()
                 )

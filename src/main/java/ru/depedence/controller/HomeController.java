@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class HomeController {
 
-    @GetMapping("/test")
+    @GetMapping
     public String getHomePage() {
-        return "forward:/private/account-page.html";
+        return "redirect:/login";
     }
 
 }

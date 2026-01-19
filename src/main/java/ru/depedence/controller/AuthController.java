@@ -48,7 +48,7 @@ public class AuthController {
     public String createUserAccount(@RequestParam String username, @RequestParam String password) {
         String encodedPassword = passwordEncoder.encode(password);
         userService.save(new User(username, encodedPassword, UserRole.USER));
-        return "redirect:/private/account-page.html";
+        return "redirect:/account";
     }
 
 }

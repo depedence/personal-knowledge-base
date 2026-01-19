@@ -25,10 +25,14 @@ public class AccountController {
     }
 
     @GetMapping
-    public String getMainPage(HttpServletRequest request) {
-        NotesContainerDto container = noteService.findAllNotes();
-        return "private/account-page";
+    public String getMainPage() {
+        return "private/account-page.html";
     }
 
+    @PostMapping(value = "/add-note")
+    public String addNote(@RequestParam String title) {
+        noteService.saveNote(title);
+        return "redirect:/account";
+    }
 
 }
