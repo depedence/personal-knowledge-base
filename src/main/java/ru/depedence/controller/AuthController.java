@@ -48,14 +48,7 @@ public class AuthController {
     public String createUserAccount(@RequestParam String username, @RequestParam String password) {
         String encodedPassword = passwordEncoder.encode(password);
         userService.save(new User(username, encodedPassword, UserRole.USER));
-        forceAutoLogin(username, password);
-        return "redirect:/account.html";
-    }
-
-    private void forceAutoLogin(String username, String password) {
-        Set<SimpleGrantedAuthority> roles = Collections.singleton(UserRole.USER.toAuthority());
-        Authentication authentication = new UsernamePasswordAuthenticationToken(username, password, roles);
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+        return "redirect:/private/account-page.html";
     }
 
 }

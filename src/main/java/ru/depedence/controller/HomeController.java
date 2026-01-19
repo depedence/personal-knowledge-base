@@ -8,7 +8,7 @@ public class HomeController {
 
     @GetMapping("/test")
     public String getHomePage() {
-        return "forward:/public/test.html";
+        return "forward:/private/account-page.html";
     }
 
 }

@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -39,15 +41,21 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/login", "/registration", "/error").permitAll()
                         .requestMatchers("/", "/public/**", "/css/**", "/js/**", "/images/**", "/favicon.ico").permitAll()
-                        .requestMatchers("/api/public/**").permitAll()
+                        .requestMatchers("/private/**").hasRole(UserRole.USER.name())
                         .anyRequest().authenticated()
                 )
-                .formLogin(AbstractHttpConfigurer::disable)
-                .logout(AbstractHttpConfigurer::disable)
-                .exceptionHandling(exceptions -> exceptions
-                        .authenticationEntryPoint((request, response, authException) -> {
-                            response.sendRedirect("/login");
-                        })
+                .formLogin(form -> form
+                        .loginPage("/login")
+                        .loginProcessingUrl("/login")
+                        .usernameParameter("username")
+                        .passwordParameter("password")
+                        .defaultSuccessUrl("/private/account-page.html", true)
+                        .failureUrl("/login?error")
+                        .permitAll()
+                )
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/login")
                 )
                 .build();
     }
@@ -71,4 +79,5 @@ public class SecurityConfig {
             }
         };
     }
+
 }
