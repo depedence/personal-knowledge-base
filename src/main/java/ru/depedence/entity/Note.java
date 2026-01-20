@@ -1,6 +1,9 @@
 package ru.depedence.entity;
 
 import jakarta.persistence.*;
+import ru.depedence.entity.dto.NoteDto;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "notes")
@@ -14,18 +17,14 @@ public class Note {
     @Column(name = "title")
     private String title;
 
-    @Column(name = "status")
-    private NoteStatus status;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @Column(name = "creation_date")
+    private LocalDateTime creationDate;
 
     public Note() {}
 
-    public Note(String title, User user) {
+    public Note(String title, LocalDateTime creationDate) {
         this.title = title;
-        this.user = user;
+        this.creationDate = creationDate;
     }
 
     public int getId() {
@@ -44,19 +43,15 @@ public class Note {
         this.title = title;
     }
 
-    public NoteStatus getStatus() {
-        return status;
+    public LocalDateTime getCreationDate() {
+        return creationDate;
     }
 
-    public void setStatus(NoteStatus status) {
-        this.status = status;
+    public void setCreationDate(LocalDateTime creationDate) {
+        this.creationDate = creationDate;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
+    public NoteDto toDto() {
+        return new NoteDto(id, title, creationDate.toLocalDate());
     }
 }

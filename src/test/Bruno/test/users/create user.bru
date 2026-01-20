@@ -1,0 +1,30 @@
+meta {
+  name: create user
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/users
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "username": "depedence",
+    "password": "12345"
+  }
+}
+
+script:post-response {
+  const body = res.getBody()
+  const user_id = body.id
+  
+  bru.setVar("user_id", user_id)
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

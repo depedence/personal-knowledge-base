@@ -1,0 +1,22 @@
+meta {
+  name: create note
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/notes
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "title": "моя первая заметка!"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

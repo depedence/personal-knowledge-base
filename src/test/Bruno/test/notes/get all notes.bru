@@ -1,0 +1,15 @@
+meta {
+  name: get all notes
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/notes
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+}

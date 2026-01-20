@@ -1,15 +1,16 @@
 package ru.depedence.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.depedence.entity.User;
-import ru.depedence.entity.UserRole;
+import ru.depedence.entity.dto.UserContainerDto;
+import ru.depedence.entity.dto.UserDto;
+import ru.depedence.entity.dto.request.CreateUserRequest;
 import ru.depedence.repository.UserRepository;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -22,26 +23,23 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public Optional<User> findById(int id) {
-        return userRepository.findById(id);
+    public UserContainerDto findAll() {
+        List<UserDto> users = userRepository.findAll().stream()
+                .map(User::toDto)
+                .collect(Collectors.toList());
+
+        return new UserContainerDto(users);
     }
 
-    public List<User> findAllByRoleIn(Iterable<UserRole> roles) {
-        return userRepository.findAllByRoleInOrderById(roles);
+    public UserDto findById(int id) {
+        return userRepository.findById(id)
+                .map(User::toDto)
+                .orElseThrow(() -> new IllegalArgumentException("User with id = " + id + " not found"));
     }
 
-    public void save(User user) {
-        userRepository.save(user);
+    public UserDto create(CreateUserRequest request) {
+        User user = request.toEntity();
+        return userRepository.save(user).toDto();
     }
 
-    public void deleteById(int id) {
-        userRepository.deleteById(id);
-    }
-
-    public User getCurrentUser() {
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        return userRepository
-                .findByUsernameIgnoreCase(username)
-                .orElseThrow(() -> new IllegalArgumentException("User with " + username + " not found"));
-    }
 }

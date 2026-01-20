@@ -4,53 +4,43 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.depedence.entity.Note;
-import ru.depedence.entity.NoteStatus;
-import ru.depedence.entity.User;
-import ru.depedence.entity.dto.NotesContainerDto;
+import ru.depedence.entity.dto.NoteContainerDto;
+import ru.depedence.entity.dto.NoteDto;
+import ru.depedence.entity.dto.request.CreateNoteRequest;
 import ru.depedence.repository.NoteRepository;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class NoteService {
 
-    private final UserService userService;
     private final NoteRepository noteRepository;
 
     @Autowired
-    public NoteService(UserService userService, NoteRepository noteRepository) {
-        this.userService = userService;
+    public NoteService(NoteRepository noteRepository) {
         this.noteRepository = noteRepository;
     }
 
-    @Transactional(readOnly = true)
-    public NotesContainerDto findAllNotes() {
-        User user = userService.getCurrentUser();
-
-        List<Note> notes = user.getNotes().stream()
-                .sorted(Comparator.comparingInt(Note::getId))
+    public NoteContainerDto findAll() {
+        List<NoteDto> notes = noteRepository.findAll().stream()
+                .map(Note::toDto)
                 .collect(Collectors.toList());
 
-        int numberOfDoneNotes = (int) notes.stream().filter(record -> record.getStatus() == NoteStatus.DONE).count();
-        int numberOfActiveNotes = (int) notes.stream().filter(record -> record.getStatus() == NoteStatus.ACTIVE).count();
-
-        return new NotesContainerDto(user.getUsername(), notes, numberOfDoneNotes, numberOfActiveNotes);
+        return new NoteContainerDto(notes);
     }
 
-    public void saveNote(String title) {
-        if (title != null && !title.isBlank()) {
-            User user = userService.getCurrentUser();
-            noteRepository.save(new Note(title, user));
-        }
+    public NoteDto findById(int id) {
+        return noteRepository.findById(id)
+                .map(Note::toDto)
+                .orElseThrow(() -> new IllegalArgumentException("Note with id = " + id + " not found"));
     }
 
-    public void updateNoteStatus(int id, NoteStatus newStatus) {
-        noteRepository.update(id, newStatus);
+    public NoteDto saveNote(CreateNoteRequest request) {
+        Note note = request.toEntity();
+        return noteRepository.save(note).toDto();
     }
 
-    public void deleteNote(int id) {
-        noteRepository.deleteById(id);
-    }
+
 }

@@ -20,7 +20,7 @@ repositories {
 
 dependencies {
     // Security
-    implementation("org.springframework.boot:spring-boot-starter-security")
+//    implementation("org.springframework.boot:spring-boot-starter-security")
 
     // Web
     implementation("org.springframework.boot:spring-boot-starter-web")
