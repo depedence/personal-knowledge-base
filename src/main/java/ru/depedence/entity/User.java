@@ -1,7 +1,10 @@
 package ru.depedence.entity;
 
 import jakarta.persistence.*;
+import ru.depedence.entity.dto.NoteContainerDto;
 import ru.depedence.entity.dto.UserDto;
+
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -17,6 +20,9 @@ public class User {
 
     @Column(name = "password")
     private String password;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Note> notes;
 
     public User() {}
 
@@ -47,6 +53,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<Note> getNotes() {
+        return notes;
+    }
+
+    public void setNotes(List<Note> notes) {
+        this.notes = notes;
     }
 
     public UserDto toDto() {

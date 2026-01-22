@@ -20,7 +20,17 @@ public class Note {
     @Column(name = "creation_date")
     private LocalDateTime creationDate;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
     public Note() {}
+
+    public Note(String title, LocalDateTime creationDate, User user) {
+        this.title = title;
+        this.creationDate = creationDate;
+        this.user = user;
+    }
 
     public Note(String title, LocalDateTime creationDate) {
         this.title = title;
@@ -51,7 +61,15 @@ public class Note {
         this.creationDate = creationDate;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     public NoteDto toDto() {
-        return new NoteDto(id, title, creationDate.toLocalDate());
+        return new NoteDto(id, title, creationDate.toLocalDate(), user.getId());
     }
 }

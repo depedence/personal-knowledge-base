@@ -9,7 +9,6 @@ import ru.depedence.entity.dto.request.CreateUserRequest;
 import ru.depedence.repository.UserRepository;
 import ru.depedence.service.UserService;
 
-@Controller
 @RestController
 @RequestMapping("/api")
 public class UserRestController {
