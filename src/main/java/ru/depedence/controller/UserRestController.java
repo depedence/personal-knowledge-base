@@ -12,13 +12,13 @@ import ru.depedence.service.UserService;
 @Controller
 @RestController
 @RequestMapping("/api")
-public class UserController {
+public class UserRestController {
 
     private final UserRepository userRepository;
     private final UserService userService;
 
     @Autowired
-    public UserController(UserRepository userRepository, UserService userService) {
+    public UserRestController(UserRepository userRepository, UserService userService) {
         this.userRepository = userRepository;
         this.userService = userService;
     }

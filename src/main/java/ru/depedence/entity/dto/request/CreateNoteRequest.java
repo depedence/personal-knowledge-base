@@ -12,6 +12,10 @@ public class CreateNoteRequest {
         this.title = title;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
     public Note toEntity() {
         return new Note(title, LocalDateTime.now());
     }

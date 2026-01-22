@@ -34,7 +34,7 @@ public class NoteRestController {
     }
 
     @PostMapping("/notes")
-    public NoteDto saveNote(CreateNoteRequest request) {
+    public NoteDto saveNote(@RequestBody CreateNoteRequest request) {
         return noteService.saveNote(request);
     }
 
