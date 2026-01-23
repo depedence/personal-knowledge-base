@@ -14,4 +14,12 @@ public class NoteFixture {
         return request;
     }
 
+    public static Map<String, Object> validEditNoteRequest(String title) {
+        Map<String, Object> request = new HashMap<>();
+
+        request.put("title", title);
+
+        return request;
+    }
+
 }

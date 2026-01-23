@@ -82,4 +82,28 @@ class NoteApiTest extends BaseApiTest {
         assertEquals(testUser.getId(), testNote.getUser().getId());
     }
 
+    @Test
+    @Order(1)
+    @DisplayName("PUT /api/notes/{noteId} - edit note")
+    void editNote_Success() {
+        Note testNote = helper.createTestNote("It's a not test note", testUser);
+        var requestBody = NoteFixture.validEditNoteRequest("It's a test note bro");
+
+        Response response = given().spec(requestSpec).body(requestBody)
+                .when().put("/api/notes/" + testNote.getId())
+                .then().statusCode(200)
+                .body("id", notNullValue())
+                .body("title", equalTo("It's a test note bro"))
+                .body("creationDate", notNullValue())
+                .body("userId", equalTo(testUser.getId()))
+                .extract().response();
+
+        int noteId = response.jsonPath().getInt("id");
+        assertTrue(noteRepository.existsById(noteId), "Note should exist in database");
+
+        Note editedNote = noteRepository.findById(noteId).orElseThrow();
+        assertEquals("It's a test note bro", editedNote.getTitle());
+        assertEquals(testUser.getId(), editedNote.getUser().getId());
+    }
+
 }
