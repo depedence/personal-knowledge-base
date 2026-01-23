@@ -28,9 +28,6 @@ class NoteApiTest extends BaseApiTest {
     @Autowired
     private NoteRepository noteRepository;
 
-    @Autowired
-    private UserRepository userRepository;
-
     private User testUser;
 
     @BeforeEach
