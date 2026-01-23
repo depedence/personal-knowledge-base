@@ -59,4 +59,27 @@ class NoteApiTest extends BaseApiTest {
         assertEquals(testUser.getId(), savedNote.getUser().getId());
     }
 
+    @Test
+    @Order(1)
+    @DisplayName("GET /api/notes - get all notes")
+    void getAllNotes_Success() {
+        Note testNote = helper.createTestNote("testNote", testUser);
+
+        Response response = given().spec(requestSpec)
+                .when().get("/api/notes")
+                .then().statusCode(200)
+                .body("notes", notNullValue())
+                .body("notes[0].id",notNullValue())
+                .body("notes[0].title", equalTo("testNote"))
+                .body("notes[0].creationDate", notNullValue())
+                .body("notes[0].userId", equalTo(testUser.getId()))
+                .extract().response();
+
+        int noteId = response.jsonPath().getInt("notes[0].id");
+        assertTrue(noteRepository.existsById(noteId), "Note should exist in database");
+
+        assertEquals("testNote", testNote.getTitle());
+        assertEquals(testUser.getId(), testNote.getUser().getId());
+    }
+
 }
