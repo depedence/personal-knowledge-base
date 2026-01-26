@@ -509,6 +509,14 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.modal--visible {
+    opacity: 1;
+    visibility: visible;
 }
 
 .modal__overlay {
@@ -528,21 +536,31 @@ body {
     padding: 2.5rem;
     width: 90%;
     max-width: 600px;
+    max-height: 90vh;
+    overflow-y: auto;
     box-shadow:
     0 20px 60px rgba(0, 0, 0, 0.3),
     0 8px 20px rgba(0, 0, 0, 0.2);
-    animation: modalSlideIn 0.3s ease;
+    transform: translateY(-30px) scale(0.95);
+    transition: transform 0.3s ease;
 }
 
-@keyframes modalSlideIn {
-    from {
-        opacity: 0;
-        transform: translateY(-30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+.modal__content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.modal__content::-webkit-scrollbar-track {
+    background: #f8f9fa;
+    border-radius: 3px;
+}
+
+.modal__content::-webkit-scrollbar-thumb {
+    background: #d1d8dd;
+    border-radius: 3px;
+}
+
+.modal__content::-webkit-scrollbar-thumb:hover {
+    background: #2d7a4f;
 }
 
 .modal__header {
@@ -572,15 +590,25 @@ body {
     border: none;
     border-radius: 8px;
     font-size: 1.5rem;
+    line-height: 1;
     color: #5a6c7d;
     cursor: pointer;
     transition: all 0.2s ease;
+    flex-shrink: 0;
 }
 
 .modal__close:hover {
     background: #e9ecef;
     color: #2c3e50;
     transform: rotate(90deg);
+}
+
+.modal__close:active {
+    transform: rotate(90deg) scale(0.95);
+}
+
+body.modal-open {
+    overflow: hidden;
 }
 
 /* ============================================

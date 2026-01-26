@@ -125,13 +125,22 @@ function setupEventListeners() {
 }
 
 function openCreateModal() {
-    document.getElementById('createNoteModal').style.display = 'block';
+    const modal = document.getElementById('createNoteModal');
+    modal.classList.add('modal--visible');
+    document.body.classList.add('modal-open');
+
     document.getElementById('createNoteTitleInput').value = '';
     document.getElementById('createNoteContentInput').value = '';
+
+    setTimeout(() => {
+        document.getElementById('createNoteTitleInput').focus();
+    }, 100);
 }
 
 function closeCreateModal() {
-    document.getElementById('createNoteModal').style.display = 'none';
+    const modal = document.getElementById('createNoteModal');
+    modal.classList.remove('modal--visible');
+    document.body.classList.remove('modal-open');
 }
 
 async function createNote() {
