@@ -77,6 +77,6 @@ public class Note {
     }
 
     public NoteDto toDto() {
-        return new NoteDto(id, title, creationDate.toLocalDate(), user.getId());
+        return new NoteDto(id, title, content,creationDate.toLocalDate(), user.getId());
     }
 }

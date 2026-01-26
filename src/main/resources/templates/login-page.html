@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
-    <link href="/css/public/auth/authorization-page.css" rel="stylesheet">
+    <link href="/css/authorization-page.css" rel="stylesheet">
 </head>
 <body>
 <div class="page-wrapper">
@@ -19,7 +19,7 @@
                 <div class="form-container__input-wrapper">
                     <input type="password" name="password" placeholder="Enter your password" class="form-container__input" required>
                 </div>
-                <div class="form-container__warning-wrapper">
+                <div class="form-container__warning-wrapper" id="errorBlock" style="display: none;">
                     <span class="form-container__warning">Wrong username or password</span>
                 </div>
                 <div class="form-container__button-wrapper">
@@ -32,5 +32,13 @@
         </div>
     </div>
 </div>
+
+<script>
+
+    if (window.location.search.includes('error')) {
+        document.getElementById('errorBlock').style.display = 'block';
+    }
+
+</script>
 </body>
 </html>

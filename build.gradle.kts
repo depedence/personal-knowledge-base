@@ -30,6 +30,9 @@ dependencies {
     runtimeOnly("org.postgresql:postgresql")
     testImplementation("com.h2database:h2")
 
+    // Thymeleaf
+    implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
+
     // Test
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 

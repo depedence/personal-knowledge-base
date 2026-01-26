@@ -20,12 +20,16 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**", "/login", "/register", "/static/**", "/", "/*.html", "/*.css", "/*.js").permitAll()
+                        .requestMatchers("/login", "/error", "/registration", "/static", "/css/**", "/js/**", "/images/**").permitAll()
+                        .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/api/**").authenticated()
+                        .requestMatchers("/account", "/private/**").authenticated()
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
                         .loginPage("/login")
-                        .defaultSuccessUrl("/notes",true)
+                        .loginProcessingUrl("/login")
+                        .defaultSuccessUrl("/account",true)
                         .permitAll()
                 )
                 .logout(logout -> logout
