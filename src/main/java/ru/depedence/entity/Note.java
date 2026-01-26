@@ -17,6 +17,9 @@ public class Note {
     @Column(name = "title")
     private String title;
 
+    @Column(name = "content")
+    private String content;
+
     @Column(name = "creation_date")
     private LocalDateTime creationDate;
 
@@ -26,15 +29,11 @@ public class Note {
 
     public Note() {}
 
-    public Note(String title, LocalDateTime creationDate, User user) {
+    public Note(String title, String content, LocalDateTime creationDate, User user) {
         this.title = title;
+        this.content = content;
         this.creationDate = creationDate;
         this.user = user;
-    }
-
-    public Note(String title, LocalDateTime creationDate) {
-        this.title = title;
-        this.creationDate = creationDate;
     }
 
     public int getId() {
@@ -51,6 +50,14 @@ public class Note {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public LocalDateTime getCreationDate() {

@@ -13,12 +13,10 @@ import ru.depedence.service.UserService;
 @RequestMapping("/api")
 public class UserRestController {
 
-    private final UserRepository userRepository;
     private final UserService userService;
 
     @Autowired
-    public UserRestController(UserRepository userRepository, UserService userService) {
-        this.userRepository = userRepository;
+    public UserRestController(UserService userService) {
         this.userService = userService;
     }
 
@@ -39,7 +37,7 @@ public class UserRestController {
 
     @DeleteMapping("/users/{id}")
     public void deleteUser(@PathVariable int id) {
-        userRepository.deleteById(id);
+        userService.delete(id);
     }
 
 }

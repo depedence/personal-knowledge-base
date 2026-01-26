@@ -66,6 +66,7 @@ public class NoteService {
         return noteRepository.findById(id)
                 .map(existingNote -> {
                     existingNote.setTitle(request.title());
+                    existingNote.setContent(request.content());
                     return noteRepository.save(existingNote).toDto();
                 })
                 .orElseThrow(() -> new IllegalArgumentException("Note with id = " + id + " not found"));

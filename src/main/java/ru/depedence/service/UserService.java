@@ -42,4 +42,8 @@ public class UserService {
         return userRepository.save(user).toDto();
     }
 
+    public void delete(int id) {
+        userRepository.deleteById(id);
+    }
+
 }
