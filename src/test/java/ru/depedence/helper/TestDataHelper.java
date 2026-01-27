@@ -1,8 +1,8 @@
 package ru.depedence.helper;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 import ru.depedence.entity.Note;
 import ru.depedence.entity.User;
 import ru.depedence.repository.NoteRepository;
@@ -19,13 +19,18 @@ public class TestDataHelper {
     @Autowired
     private NoteRepository noteRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     public User createTestUser(String username, String password) {
-        User user = new User(username, password);
+        User user = new User();
+        user.setUsername(username);
+        user.setPassword(passwordEncoder.encode(password));
         return userRepository.save(user);
     }
 
     public Note createTestNote(String title, User user) {
-        Note note = new Note(title, LocalDateTime.now(), user);
+        Note note = new Note(title, "test content", LocalDateTime.now(), user);
         return noteRepository.save(note);
     }
 

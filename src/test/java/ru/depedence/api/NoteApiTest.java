@@ -3,14 +3,12 @@ package ru.depedence.api;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 import ru.depedence.base.BaseApiTest;
 import ru.depedence.entity.Note;
 import ru.depedence.entity.User;
 import ru.depedence.fixture.NoteFixture;
 import ru.depedence.helper.TestDataHelper;
 import ru.depedence.repository.NoteRepository;
-import ru.depedence.repository.UserRepository;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
@@ -19,11 +17,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DisplayName("Note API Tests")
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class NoteApiTest extends BaseApiTest {
 
     @Autowired
-    private TestDataHelper helper;
+    private TestDataHelper dataHelper;
 
     @Autowired
     private NoteRepository noteRepository;
@@ -32,12 +29,12 @@ class NoteApiTest extends BaseApiTest {
 
     @BeforeEach
     void setUp() {
-        helper.cleanDatabase();
-        testUser = helper.createTestUser("testUser", "testPassword");
+        dataHelper.cleanDatabase();
+        testUser = dataHelper.createTestUser("testUser", "testPassword");
+        authenticateAs("testUser", "testPassword");
     }
 
     @Test
-    @Order(1)
     @DisplayName("POST /api/notes - create note with valid data")
     void createValidNote_Success() {
         var requestBody = NoteFixture.validCreateNoteRequest(testUser.getId(), "My first Note");
@@ -60,10 +57,9 @@ class NoteApiTest extends BaseApiTest {
     }
 
     @Test
-    @Order(1)
     @DisplayName("GET /api/notes - get all notes")
     void getAllNotes_Success() {
-        Note testNote = helper.createTestNote("testNote", testUser);
+        Note testNote = dataHelper.createTestNote("testNote", testUser);
 
         Response response = given().spec(requestSpec)
                 .when().get("/api/notes")
@@ -83,10 +79,9 @@ class NoteApiTest extends BaseApiTest {
     }
 
     @Test
-    @Order(1)
     @DisplayName("PUT /api/notes/{noteId} - edit note")
     void editNote_Success() {
-        Note testNote = helper.createTestNote("It's a not test note", testUser);
+        Note testNote = dataHelper.createTestNote("It's a not test note", testUser);
         var requestBody = NoteFixture.validEditNoteRequest("It's a test note bro");
 
         Response response = given().spec(requestSpec).body(requestBody)
