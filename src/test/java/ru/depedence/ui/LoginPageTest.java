@@ -23,8 +23,8 @@ public class LoginPageTest extends BaseUiTest {
     void setUp() {
         helper.cleanDatabase();
         helper.createTestUser("testUser", "testPassword");
-        loginPage.open(baseUrl);
         loginPage = new LoginPage(driver);
+        loginPage.open(baseUrl);
     }
 
     @Test
