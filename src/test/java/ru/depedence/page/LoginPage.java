@@ -35,9 +35,8 @@ public class LoginPage {
         PageFactory.initElements(driver, this);
     }
 
-    public LoginPage open(String baseUrl) {
+    public void open(String baseUrl) {
         driver.get(baseUrl + "/login");
-        return this;
     }
 
     public void login(String username, String password) {
@@ -50,8 +49,8 @@ public class LoginPage {
         loginButton.click();
     }
 
-    public boolean isErrorDisplayed() {
-        return errorBlock.isDisplayed();
+    public void isErrorDisplayed() {
+        errorBlock.isDisplayed();
     }
 
     public String getErrorMessage() {
