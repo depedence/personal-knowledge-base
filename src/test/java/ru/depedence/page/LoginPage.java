@@ -36,7 +36,7 @@ public class LoginPage {
     }
 
     public LoginPage open(String baseUrl) {
-        driver.get(baseUrl + "/templates/login-page.html");
+        driver.get(baseUrl + "/login");
         return this;
     }
 
