@@ -39,6 +39,11 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.security:spring-security-test")
 
+    // selenium
+    implementation("org.seleniumhq.selenium:selenium-java:4.40.0")
+    implementation("io.github.bonigarcia:webdrivermanager:6.3.3")
+
+    // rest assured
     testImplementation("io.rest-assured:rest-assured:5.4.0")
     testImplementation("io.rest-assured:json-schema-validator:5.4.0")
 
