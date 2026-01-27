@@ -91,7 +91,7 @@ function showEmptyState() {
 }
 
 function setupEventListeners() {
-    document.getElementById('createNoteButton').addEventListener('click', () => {
+    document.getElementById('newNoteButton').addEventListener('click', () => {
         openCreateModal();
     });
 

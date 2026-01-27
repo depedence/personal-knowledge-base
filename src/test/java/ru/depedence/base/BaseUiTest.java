@@ -1,13 +1,17 @@
 package ru.depedence.base;
 
+import io.restassured.http.Cookies;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.test.context.ActiveProfiles;
+import ru.depedence.helper.AuthHelper;
 
 import java.time.Duration;
 
@@ -17,6 +21,9 @@ public abstract class BaseUiTest {
 
     @LocalServerPort
     protected int port;
+
+    @Autowired
+    protected AuthHelper authHelper;
 
     protected WebDriver driver;
     protected String baseUrl;
@@ -45,8 +52,29 @@ public abstract class BaseUiTest {
         }
     }
 
-    protected void openPage(String path) {
-        driver.get(baseUrl + path);
+    protected void loginWithCookies(String username, String password) {
+        driver.get(baseUrl);
+
+        Cookies restAssuredCookies = authHelper.loginAndGetCookies(
+                username,
+                password,
+                "http://localhost",
+                port
+        );
+
+        restAssuredCookies.asList().forEach(restAssuredCookie -> {
+            Cookie seleniumCookie = new Cookie(
+                    restAssuredCookie.getName(),
+                    restAssuredCookie.getValue(),
+                    restAssuredCookie.getDomain(),
+                    restAssuredCookie.getPath(),
+                    restAssuredCookie.getExpiryDate(),
+                    restAssuredCookie.isSecured(),
+                    restAssuredCookie.isHttpOnly()
+            );
+
+            driver.manage().addCookie(seleniumCookie);
+        });
     }
 
 }

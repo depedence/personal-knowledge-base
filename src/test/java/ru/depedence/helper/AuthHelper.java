@@ -2,6 +2,7 @@ package ru.depedence.helper;
 
 import io.restassured.http.Cookies;
 import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
 import org.springframework.stereotype.Component;
 
 import static io.restassured.RestAssured.given;
@@ -10,7 +11,18 @@ import static io.restassured.RestAssured.given;
 public class AuthHelper {
 
     public Cookies loginAndGetCookies(String username, String password) {
-        Response response = given()
+        return performLogin(given(), username, password);
+    }
+
+    public Cookies loginAndGetCookies(String username, String password, String baseUrl, int port) {
+        RequestSpecification spec = given()
+                .baseUri(baseUrl)
+                .port(port);
+        return performLogin(spec, username, password);
+    }
+
+    private Cookies performLogin(RequestSpecification spec, String username, String password) {
+        Response response = spec
                 .contentType("application/x-www-form-urlencoded")
                 .formParam("username", username)
                 .formParam("password", password)

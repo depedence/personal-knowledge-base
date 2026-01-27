@@ -23,14 +23,13 @@ public class LoginPageTest extends BaseUiTest {
     void setUp() {
         helper.cleanDatabase();
         helper.createTestUser("testUser", "testPassword");
+        loginPage.open(baseUrl);
         loginPage = new LoginPage(driver);
     }
 
     @Test
     @DisplayName("Login successfully with valid credentials")
     void loginWithValidCredentials__Success() {
-        loginPage.open(baseUrl);
-
         loginPage.login("testUser", "testPassword");
         loginPage.waitForRedirect();
 
@@ -40,8 +39,6 @@ public class LoginPageTest extends BaseUiTest {
     @Test
     @DisplayName("Login failed with invalid credentials")
     void loginWithInvalidCredentials__Failure() {
-        loginPage.open(baseUrl);
-
         loginPage.login("testUser", "incorrectPassword");
 
         int MAX_RETRY = 3;
