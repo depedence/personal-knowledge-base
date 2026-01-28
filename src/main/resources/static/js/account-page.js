@@ -19,7 +19,7 @@ async function loadCurrentUser() {
 
     currentUser = await response.json();
 
-    document.querySelector('.header-container__controls-text').textContent = currentUser;
+    document.querySelector('.header-container__controls-text').textContent = currentUser.username;
 }
 
 async function loadNotes() {
