@@ -1,4 +1,4 @@
-package ru.depedence.helper;
+package ru.depedence.helpers;
 
 import io.restassured.http.Cookies;
 import io.restassured.response.Response;

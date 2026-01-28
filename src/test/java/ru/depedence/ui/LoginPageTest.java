@@ -6,8 +6,8 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.depedence.base.BaseUiTest;
-import ru.depedence.helper.TestDataHelper;
-import ru.depedence.page.LoginPage;
+import ru.depedence.helpers.TestDataHelper;
+import ru.depedence.pages.LoginPage;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 

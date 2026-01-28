@@ -1,4 +1,4 @@
-package ru.depedence.page;
+package ru.depedence.pages;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;

@@ -5,8 +5,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.depedence.base.BaseUiTest;
-import ru.depedence.helper.TestDataHelper;
-import ru.depedence.page.AccountPage;
+import ru.depedence.helpers.TestDataHelper;
+import ru.depedence.pages.AccountPage;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 

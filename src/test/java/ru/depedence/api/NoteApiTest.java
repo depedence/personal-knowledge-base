@@ -7,14 +7,13 @@ import ru.depedence.base.BaseApiTest;
 import ru.depedence.entity.Note;
 import ru.depedence.entity.User;
 import ru.depedence.fixture.NoteFixture;
-import ru.depedence.helper.TestDataHelper;
+import ru.depedence.helpers.TestDataHelper;
 import ru.depedence.repository.NoteRepository;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("Note API Tests")
 class NoteApiTest extends BaseApiTest {
@@ -99,6 +98,20 @@ class NoteApiTest extends BaseApiTest {
         Note editedNote = noteRepository.findById(noteId).orElseThrow();
         assertEquals("It's a test note bro", editedNote.getTitle());
         assertEquals(testUser.getId(), editedNote.getUser().getId());
+    }
+
+    @Test
+    @DisplayName("DELETE /api/notes/{noteId} - delete note")
+    void deleteNote_Success() {
+        Note testNote = dataHelper.createTestNote("Temp Note for delete", testUser);
+        int noteId = testNote.getId();
+
+        Response response = given().spec(requestSpec)
+                .when().delete("/api/notes/" + noteId)
+                .then().statusCode(200)
+                .extract().response();
+
+        assertFalse(noteRepository.existsById(noteId));
     }
 
 }
