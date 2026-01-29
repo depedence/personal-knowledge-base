@@ -1,5 +1,6 @@
 package ru.depedence.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,7 +35,7 @@ public class UserService {
     public UserDto findById(int id) {
         return userRepository.findById(id)
                 .map(User::toDto)
-                .orElseThrow(() -> new IllegalArgumentException("User with id = " + id + " not found"));
+                .orElseThrow(() -> new EntityNotFoundException("User with id = " + id + " not found"));
     }
 
     public UserDto create(CreateUserRequest request) {
