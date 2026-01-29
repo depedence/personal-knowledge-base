@@ -1,5 +1,6 @@
 package ru.depedence.unit.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -67,9 +68,7 @@ public class NoteServiceTest {
     void findById_IdIsInvalid__Failure() {
         when(noteRepository.findById(999)).thenReturn(Optional.empty());
 
-        assertThrows(IllegalArgumentException.class, () -> {
-            noteService.findById(999);
-        });
+        assertThrows(IllegalArgumentException.class, () -> noteService.findById(999));
     }
 
     @Test
@@ -90,10 +89,31 @@ public class NoteServiceTest {
     void saveNote_UserNotExist__Failure() {
         CreateNoteRequest request = new CreateNoteRequest("NEW Title", "NEW Content", 999);
 
-        when(noteRepository.findById(999)).thenReturn(Optional.empty());
+        when(userRepository.findById(999)).thenReturn(Optional.empty());
 
-        assertThrows(IllegalArgumentException.class, () -> {
-            noteService.saveNote(999, request);
-        });
+        assertThrows(EntityNotFoundException.class, () -> noteService.saveNote(999, request));
+    }
+
+    @Test
+    void editNote_NoteExist__Success() {
+        CreateNoteRequest request = new CreateNoteRequest("Edit title", "edit content", testUser.getId());
+
+        when(noteRepository.findById(testNote.getId())).thenReturn(Optional.of(testNote));
+        when(noteRepository.save(any(Note.class))).thenReturn(testNote);
+
+        NoteDto result = noteService.editNote(testNote.getId(), request);
+
+        assertNotNull(result);
+        verify(noteRepository).findById(testNote.getId());
+        verify(noteRepository).save(any(Note.class));
+    }
+
+    @Test
+    void editNote_NoteNotExits__Failure() {
+        CreateNoteRequest request = new CreateNoteRequest("NEW Title", "NEW Content", testUser.getId());
+
+        when(noteRepository.findById(testNote.getId())).thenReturn(Optional.empty());
+
+        assertThrows(EntityNotFoundException.class, () -> noteService.editNote(testNote.getId(), request));
     }
 }

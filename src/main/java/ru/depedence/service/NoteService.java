@@ -1,5 +1,6 @@
 package ru.depedence.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,7 +12,6 @@ import ru.depedence.entity.dto.request.CreateNoteRequest;
 import ru.depedence.repository.NoteRepository;
 import ru.depedence.repository.UserRepository;
 
-import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,14 +28,6 @@ public class NoteService {
         this.userRepository = userRepository;
     }
 
-    public NoteContainerDto findAll() {
-        List<NoteDto> notes = noteRepository.findAll().stream()
-                .map(Note::toDto)
-                .collect(Collectors.toList());
-
-        return new NoteContainerDto(notes);
-    }
-
     public NoteContainerDto findAllByUserId(int userId) {
         User user = userRepository.findById(userId).orElseThrow();
         List<NoteDto> noteDto = user.getNotes().stream()
@@ -48,12 +40,12 @@ public class NoteService {
     public NoteDto findById(int id) {
         return noteRepository.findById(id)
                 .map(Note::toDto)
-                .orElseThrow(() -> new IllegalArgumentException("Note with id = " + id + " not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Note with id = " + id + " not found"));
     }
 
     public NoteDto saveNote(int userId, CreateNoteRequest request) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("User with id = " + userId + " not found"));
+                .orElseThrow(() -> new EntityNotFoundException("User with id = " + userId + " not found"));
 
         Note note = request.toEntity(user);
 
@@ -69,7 +61,7 @@ public class NoteService {
                     existingNote.setContent(request.content());
                     return noteRepository.save(existingNote).toDto();
                 })
-                .orElseThrow(() -> new IllegalArgumentException("Note with id = " + id + " not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Note with id = " + id + " not found"));
     }
 
     public void delete(int id) {
