@@ -2,6 +2,7 @@ package ru.depedence.ui;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import ru.depedence.pages.LoginPage;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@Tag("ui")
 @DisplayName("Login Page UI Tests")
 public class LoginPageTest extends BaseUiTest {
 

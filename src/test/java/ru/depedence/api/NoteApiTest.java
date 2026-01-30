@@ -18,6 +18,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.*;
 
+@Tag("api")
 @Epic("API Testing")
 @Feature("Note API")
 @DisplayName("Note API Tests")

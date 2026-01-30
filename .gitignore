@@ -4,3 +4,8 @@
 # Gradle project
 .gradle
 build
+
+# AspectJ
+.ajcore.*
+*.ajcore
+ajcore.*

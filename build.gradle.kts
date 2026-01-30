@@ -3,6 +3,7 @@ plugins {
     id("org.springframework.boot") version "3.4.2"
     id("io.spring.dependency-management") version "1.1.7"
     id("io.qameta.allure") version "2.12.0"
+    jacoco
 }
 
 group = "ru.depedence"
@@ -67,4 +68,111 @@ tasks.withType<Test> {
         events("passed", "skipped", "failed")
     }
     systemProperty("allure.results.directory", layout.buildDirectory.dir("allure-results").get().asFile.absolutePath)
+    finalizedBy(tasks.jacocoTestReport)
+}
+
+jacoco {
+    toolVersion = "0.8.14"
+}
+
+tasks.jacocoTestReport {
+    dependsOn(tasks.test)
+
+    group = "verification"
+    description = "Generate report code coverage JaCoCo"
+
+    reports {
+        html.required.set(true)
+        html.outputLocation.set(layout.buildDirectory.dir("reports/jacoco/test/html"))
+    }
+
+    classDirectories.setFrom(
+        files(classDirectories.files.map {
+            fileTree(it) {
+                exclude(
+                    "**/config/**",
+                    "**/configuration/**",
+                    "**/*Application.class",
+                    "**/*Application$*.class",
+                    "**/dto/**",
+                    "**/request/**",
+                    "**/response/**",
+                    "**/*Enum.class",
+                    "**/*Enum$*.class"
+                )
+            }
+        })
+    )
+}
+
+tasks.jacocoTestCoverageVerification {
+    dependsOn(tasks.test)
+
+    violationRules {
+        rule {
+            enabled = true
+            element = "BUNDLE"
+
+            limit {
+                counter = "LINE"
+                value = "COVEREDRATIO"
+                minimum = "0.70".toBigDecimal()
+            }
+
+            limit {
+                counter = "BRANCH"
+                value = "COVEREDRATIO"
+                minimum = "0.60".toBigDecimal()
+            }
+        }
+
+        rule {
+            enabled = true
+            element = "CLASS"
+
+            limit {
+                counter = "LINE"
+                value = "COVEREDRATIO"
+                minimum = "0.50".toBigDecimal()
+            }
+
+            excludes = listOf(
+                "*.config.*",
+                "*.configuration.*",
+                "*Application",
+                "*.dto.*",
+                "*.request.*",
+                "*.response.*"
+            )
+        }
+
+        rule {
+            enabled = true
+            element = "METHOD"
+
+            limit {
+                counter = "LINE"
+                value = "COVEREDRATIO"
+                minimum = "0.40".toBigDecimal()
+            }
+        }
+    }
+
+    classDirectories.setFrom(
+        files(classDirectories.files.map {
+            fileTree(it) {
+                exclude(
+                    "**/config/**",
+                    "**/configuration/**",
+                    "**/*Application.class",
+                    "**/*Application$*.class",
+                    "**/dto/**",
+                    "**/request/**",
+                    "**/response/**",
+                    "**/*Enum.class",
+                    "**/*Enum$*.class"
+                )
+            }
+        })
+    )
 }
