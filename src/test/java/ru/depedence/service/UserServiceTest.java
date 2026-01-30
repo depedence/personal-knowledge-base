@@ -1,4 +1,4 @@
-package ru.depedence.unit.service;
+package ru.depedence.service;
 
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,7 +12,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import ru.depedence.entity.User;
 import ru.depedence.entity.dto.UserDto;
 import ru.depedence.repository.UserRepository;
-import ru.depedence.service.UserService;
 
 import java.util.Optional;
 

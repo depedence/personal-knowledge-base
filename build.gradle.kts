@@ -68,6 +68,7 @@ tasks.withType<Test> {
         events("passed", "skipped", "failed")
     }
     systemProperty("allure.results.directory", layout.buildDirectory.dir("allure-results").get().asFile.absolutePath)
+    outputs.upToDateWhen { false }
     finalizedBy(tasks.jacocoTestReport)
 }
 
