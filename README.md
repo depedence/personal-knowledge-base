@@ -20,13 +20,20 @@ PKB — это веб-приложение для хранения и орган
 - Поиск по заметкам [?]
 - Архивация и избранное [?]
 
-## Технологии
+## Технологии разработки
 - Java 17
 - Spring Boot 3
 - Spring Security
-- Spring Data JPA
 - PostgreSQL
 - HTML + CSS
+
+## Технологии тестирования
+- JUnit 5
+- Selenium
+- Rest Assured
+- Mockito
+- Allure Reports
+- JaCoCo
 
 # Запуск
 
