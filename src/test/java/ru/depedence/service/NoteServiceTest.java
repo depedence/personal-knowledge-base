@@ -63,17 +63,9 @@ public class NoteServiceTest {
     @Description("Тест проверяет, что метод findById возвращает заметку, когда id заметки - валидный")
     @DisplayName("findById - успешно находит и возвращает заметку")
     void findById_IdIsValid__Success() {
-
-        //debug
-        System.out.println("🔥 TEST STARTED");
-
         when(noteRepository.findById(testNote.getId())).thenReturn(Optional.of(testNote));
 
-        System.out.println("🔥 CALLING noteService.findById()");
-
         NoteDto result = noteService.findById(testNote.getId());
-
-        System.out.println("🔥 RESULT: " + result);
 
         assertNotNull(result);
         assertEquals("Test Title", result.title());
