@@ -1,5 +1,6 @@
 package ru.depedence.unit.service;
 
+import io.qameta.allure.*;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -22,6 +23,8 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+@Epic("Unit Testing")
+@Feature("Note Service")
 @ExtendWith(MockitoExtension.class)
 @DisplayName("NoteService Unit Test")
 public class NoteServiceTest {
@@ -54,6 +57,10 @@ public class NoteServiceTest {
     }
 
     @Test
+    @Story("Find Note by Id")
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("Тест проверяет, что метод findById возвращает заметку, когда id заметки - валидный")
+    @DisplayName("findById - успешно находит и возвращает заметку")
     void findById_IdIsValid__Success() {
         when(noteRepository.findById(testNote.getId())).thenReturn(Optional.of(testNote));
 
@@ -65,13 +72,21 @@ public class NoteServiceTest {
     }
 
     @Test
+    @Story("Find Note by Id")
+    @Severity(SeverityLevel.NORMAL)
+    @Description("Тест проверяет, что метод findById возвращает ошибку, когда id заметки - невалидный")
+    @DisplayName("findById - успешно обрабатывает ошибку")
     void findById_IdIsInvalid__Failure() {
         when(noteRepository.findById(999)).thenReturn(Optional.empty());
 
-        assertThrows(IllegalArgumentException.class, () -> noteService.findById(999));
+        assertThrows(EntityNotFoundException.class, () -> noteService.findById(999));
     }
 
     @Test
+    @Story("Save Note")
+    @Severity(SeverityLevel.BLOCKER)
+    @Description("Тест проверяет, что метод saveNote сохраняет заметку, когда User - существует")
+    @DisplayName("saveNote - успешно сохраняет заметку")
     void saveNote_UserExist__Success() {
         CreateNoteRequest request = new CreateNoteRequest("NEW Title", "NEW Content", testUser.getId());
 
@@ -86,6 +101,10 @@ public class NoteServiceTest {
     }
 
     @Test
+    @Story("Save Note")
+    @Severity(SeverityLevel.NORMAL)
+    @Description("Тест проверяет, что метод saveNote возвращает ошибку, когда User - не существует")
+    @DisplayName("saveNote - успешно обрабатывает ошибку")
     void saveNote_UserNotExist__Failure() {
         CreateNoteRequest request = new CreateNoteRequest("NEW Title", "NEW Content", 999);
 
@@ -95,6 +114,10 @@ public class NoteServiceTest {
     }
 
     @Test
+    @Story("Edit Note")
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("Тест проверяет, что метод editNote возвращает отредактированную заметку, когда NoteId - валидно")
+    @DisplayName("editNote - успешно редактирует заметку")
     void editNote_NoteExist__Success() {
         CreateNoteRequest request = new CreateNoteRequest("Edit title", "edit content", testUser.getId());
 
@@ -109,6 +132,10 @@ public class NoteServiceTest {
     }
 
     @Test
+    @Story("EditNote")
+    @Severity(SeverityLevel.NORMAL)
+    @Description("Тест проверяет, что метод editNote возвращает ошибку, когда NoteId - невалидно")
+    @DisplayName("editNote - успешно обрабатывает ошибку")
     void editNote_NoteNotExits__Failure() {
         CreateNoteRequest request = new CreateNoteRequest("NEW Title", "NEW Content", testUser.getId());
 

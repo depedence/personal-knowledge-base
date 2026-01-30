@@ -1,9 +1,12 @@
 package ru.depedence.base;
 
+import io.qameta.allure.Attachment;
 import io.restassured.http.Cookies;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.Cookie;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -48,6 +51,7 @@ public abstract class BaseUiTest {
     @AfterEach
     public void testDownSelenium() {
         if (driver != null) {
+            takeScreenshot("Final Screenshot");
             driver.quit();
         }
     }
@@ -75,6 +79,19 @@ public abstract class BaseUiTest {
 
             driver.manage().addCookie(seleniumCookie);
         });
+    }
+
+    @Attachment(value = "Screenshot: {screenshotName", type = "image/png")
+    private byte[] takeScreenshot(String screenshotName) {
+        if (driver == null) {
+            return new byte[0];
+        }
+        return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+    }
+
+    @Attachment(value = "Page source", type = "text/html")
+    protected String savePageSource() {
+        return driver.getPageSource();
     }
 
 }

@@ -1,5 +1,8 @@
 package ru.depedence.api;
 
+import io.qameta.allure.*;
+import io.qameta.allure.restassured.AllureRestAssured;
+import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +18,8 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.*;
 
+@Epic("API Testing")
+@Feature("Note API")
 @DisplayName("Note API Tests")
 class NoteApiTest extends BaseApiTest {
 
@@ -31,9 +36,13 @@ class NoteApiTest extends BaseApiTest {
         dataHelper.cleanDatabase();
         testUser = dataHelper.createTestUser("testUser", "testPassword");
         authenticateAs("testUser", "testPassword");
+        RestAssured.filters(new AllureRestAssured());
     }
 
     @Test
+    @Story("Create Note")
+    @Severity(SeverityLevel.BLOCKER)
+    @Description("Создание новой заметки через API")
     @DisplayName("POST /api/notes - create note with valid data")
     void createValidNote_Success() {
         var requestBody = NoteFixture.validCreateNoteRequest(testUser.getId(), "My first Note");
@@ -56,6 +65,9 @@ class NoteApiTest extends BaseApiTest {
     }
 
     @Test
+    @Story("Get Note")
+    @Severity(SeverityLevel.BLOCKER)
+    @Description("Получение всех заметок пользователя")
     @DisplayName("GET /api/notes - get all notes")
     void getAllNotes_Success() {
         Note testNote = dataHelper.createTestNote("testNote", testUser);
@@ -78,6 +90,9 @@ class NoteApiTest extends BaseApiTest {
     }
 
     @Test
+    @Story("Edit Note")
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("Редактирование конкретной заметки")
     @DisplayName("PUT /api/notes/{noteId} - edit note")
     void editNote_Success() {
         Note testNote = dataHelper.createTestNote("It's a not test note", testUser);
@@ -101,6 +116,9 @@ class NoteApiTest extends BaseApiTest {
     }
 
     @Test
+    @Story("Delete Note")
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("Удаление конкретной заметки")
     @DisplayName("DELETE /api/notes/{noteId} - delete note")
     void deleteNote_Success() {
         Note testNote = dataHelper.createTestNote("Temp Note for delete", testUser);

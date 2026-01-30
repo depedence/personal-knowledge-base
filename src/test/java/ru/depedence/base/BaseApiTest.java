@@ -1,9 +1,12 @@
 package ru.depedence.base;
 
+import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.filter.log.LogDetail;
+import io.restassured.filter.log.RequestLoggingFilter;
+import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.http.ContentType;
 import io.restassured.http.Cookies;
 import io.restassured.specification.RequestSpecification;
@@ -40,6 +43,9 @@ public abstract class BaseApiTest {
                 .setAccept(ContentType.JSON)
                 .log(LogDetail.URI)
                 .log(LogDetail.METHOD)
+                .addFilter(new AllureRestAssured())
+                .addFilter(new RequestLoggingFilter())
+                .addFilter(new ResponseLoggingFilter())
                 .build();
 
         responseSpec = new ResponseSpecBuilder()
@@ -57,6 +63,9 @@ public abstract class BaseApiTest {
                 .log(LogDetail.URI)
                 .log(LogDetail.METHOD)
                 .log(LogDetail.COOKIES)
+                .addFilter(new AllureRestAssured())
+                .addFilter(new RequestLoggingFilter())
+                .addFilter(new ResponseLoggingFilter())
                 .build();
     }
 

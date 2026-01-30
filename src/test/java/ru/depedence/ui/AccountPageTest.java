@@ -1,5 +1,6 @@
 package ru.depedence.ui;
 
+import io.qameta.allure.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -10,6 +11,8 @@ import ru.depedence.pages.AccountPage;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@Epic("UI Testing")
+@Feature("Account Page")
 @DisplayName("Account Page UI Tests")
 public class AccountPageTest extends BaseUiTest {
 
@@ -28,26 +31,39 @@ public class AccountPageTest extends BaseUiTest {
     }
 
     @Test
+    @Story("Title Check")
+    @Severity(SeverityLevel.TRIVIAL)
+    @Description("Тест проверяет тайтл страницы")
     @DisplayName("Check title name on Account Page")
+    @Step("Переходим на основную страницу и проверяем тайтл")
     void checkAccountPageTitle() {
+        takeScreenshot("CheckTitle");
         assertTrue(accountPage.getPageTitle().contains("PKB Home Page"));
     }
 
     @Test
+    @Story("Create Note")
+    @Severity(SeverityLevel.BLOCKER)
+    @Description("Тест проверяет сохранение заметки")
     @DisplayName("Try to create test Note")
     void createTestNote__Success() {
         String title = "this is test title";
         String content = "this is test content";
 
+        takeScreenshot("Before fill");
+
         accountPage.openModalAndFillInputs(title, content);
 
-        System.out.println("ZXC: По факту что там в элементе title - " + accountPage.getNoteTitle());
-        System.out.println("ZXC: Что должно быть - " + title);
-
-        System.out.println("ZXC: По факту что там в элементе content - " + accountPage.getNoteContent());
-        System.out.println("ZXC: Что должно быть - " + content);
+        takeScreenshot("After fill");
 
         assertTrue(accountPage.getNoteTitle().contains(title));
         assertTrue(accountPage.getNoteContent().contains(content));
     }
+
+    @Attachment(value = "Screenshot: {name}", type = "image/png")
+    private byte[] takeScreenshot(String name) {
+        return ((org.openqa.selenium.TakesScreenshot) driver)
+                .getScreenshotAs(org.openqa.selenium.OutputType.BYTES);
+    }
+
 }
