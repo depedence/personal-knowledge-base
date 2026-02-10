@@ -2,6 +2,7 @@ package ru.depedence.entity;
 
 import jakarta.persistence.*;
 import ru.depedence.entity.dto.NoteDto;
+import ru.depedence.repository.NoteCategory;
 
 import java.time.LocalDateTime;
 
@@ -14,11 +15,14 @@ public class Note {
     @Column(name = "id")
     private int id;
 
-    @Column(name = "title")
+    @Column(name = "title", nullable = false)
     private String title;
 
-    @Column(name = "content")
+    @Column(name = "content", nullable = false)
     private String content;
+
+    @Column(name = "category", nullable = false)
+    private NoteCategory category;
 
     @Column(name = "creation_date")
     private LocalDateTime creationDate;
@@ -29,9 +33,10 @@ public class Note {
 
     public Note() {}
 
-    public Note(String title, String content, LocalDateTime creationDate, User user) {
+    public Note(String title, String content, NoteCategory category, LocalDateTime creationDate, User user) {
         this.title = title;
         this.content = content;
+        this.category = category;
         this.creationDate = creationDate;
         this.user = user;
     }
@@ -60,6 +65,14 @@ public class Note {
         this.content = content;
     }
 
+    public NoteCategory getCategory() {
+        return category;
+    }
+
+    public void setCategory(NoteCategory category) {
+        this.category = category;
+    }
+
     public LocalDateTime getCreationDate() {
         return creationDate;
     }
@@ -77,6 +90,6 @@ public class Note {
     }
 
     public NoteDto toDto() {
-        return new NoteDto(id, title, content,creationDate.toLocalDate(), user.getId());
+        return new NoteDto(id, title, content, category, creationDate.toLocalDate(), user.getId());
     }
 }
