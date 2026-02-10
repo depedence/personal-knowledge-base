@@ -1,6 +1,11 @@
 let currentUser = null;
 let currentNoteId = null;
 let notes = [];
+const CATEGORY_LABELS = {
+    PERSONAL: 'Personal',
+    WORK: 'Work',
+    NOTE: 'Note'
+}
 
 document.addEventListener('DOMContentLoaded', async () => {
     try {
@@ -50,6 +55,7 @@ function renderNotesList() {
 
         noteItem.innerHTML = `
             <h4 class="notes-sidebar__item-title">${escapeHtml(note.title)}</h4>
+            <span class="notes-sidebar__item-category">${formatCategory(note.category)}</span>
             <span class="notes-sidebar__item-date">${formatDate(note.creationDate)}</span>
         `;
 
@@ -78,6 +84,7 @@ async function showNote(noteId) {
     document.getElementById('noteView').style.display = 'block';
 
     document.getElementById('noteTitle').textContent = note.title;
+    document.getElementById('noteCategory').textContent = formatCategory(note.category);
     document.getElementById('noteBody').innerHTML = `<p>${escapeHtml(note.content).replace(/\n/g, '<br>')}</p>`;
     document.getElementById('noteCreated').textContent = `Created: ${formatDate(note.creationDate)}`;
     document.getElementById('noteUpdated').textContent = `Updated: ${formatDate(note.creationDate)}`;
@@ -131,6 +138,7 @@ function openCreateModal() {
 
     document.getElementById('createNoteTitleInput').value = '';
     document.getElementById('createNoteContentInput').value = '';
+    document.getElementById('createNoteCategoryInput').value = 'PERSONAL';
 
     setTimeout(() => {
         document.getElementById('createNoteTitleInput').focus();
@@ -146,6 +154,7 @@ function closeCreateModal() {
 async function createNote() {
     const title = document.getElementById('createNoteTitleInput').value;
     const content = document.getElementById('createNoteContentInput').value;
+    const category = document.getElementById('createNoteCategoryInput').value;
 
     const response = await fetch('/api/notes', {
         method: 'POST',
@@ -153,6 +162,7 @@ async function createNote() {
         body: JSON.stringify({
             title,
             content,
+            category,
             userId: currentUser.id
         })
     });
@@ -175,6 +185,7 @@ function enterEditMode() {
 
     document.getElementById('noteTitleInput').value = note.title;
     document.getElementById('noteContentInput').value = note.content;
+    document.getElementById('noteCategoryInput').value = note.category;
 }
 
 function exitEditMode() {
@@ -184,6 +195,7 @@ function exitEditMode() {
 async function saveEditedNote() {
     const title = document.getElementById('noteTitleInput').value;
     const content = document.getElementById('noteContentInput').value;
+    const category = document.getElementById('noteCategoryInput').value;
 
     const response = await fetch(`/api/notes/${currentNoteId}`, {
         method: 'PUT',
@@ -191,6 +203,7 @@ async function saveEditedNote() {
         body: JSON.stringify({
             title,
             content,
+            category,
             userId: currentUser.id
         })
     });
@@ -229,4 +242,8 @@ function escapeHtml(text) {
     const div = document.createElement('div');
     div.textContent = text;
     return div.innerHTML;
+}
+
+function formatCategory(category) {
+    return CATEGORY_LABELS[category] || category;
 }

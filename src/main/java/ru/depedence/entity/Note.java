@@ -22,6 +22,7 @@ public class Note {
     private String content;
 
     @Column(name = "category", nullable = false)
+    @Enumerated(EnumType.STRING)
     private NoteCategory category;
 
     @Column(name = "creation_date")

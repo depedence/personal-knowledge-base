@@ -79,7 +79,10 @@
           <div class="notes-content__view" id="noteView">
 
             <div class="notes-content__header">
-              <h1 class="notes-content__title" id="noteTitle">Моя первая заметка</h1>
+              <div class="notes-content__title-wrap">
+                <h1 class="notes-content_-title" id="noteTitle">Моя первая заметка</h1>
+                <span class="notes-content__category" id="noteCategory">Personal</span>
+              </div>
 
               <div class="notes-content__actions">
                 <button class="notes-content__button notes-content__button--edit" id="editNoteButton">Edit</button>
@@ -126,6 +129,15 @@
                         placeholder="Write your note here..."
                         required
                 ></textarea>
+              </div>
+
+              <div class="notes-form__group">
+                <label class="notes-form__label" for="noteCategoryInput">Category</label>
+                <select class="notes-form__select" id="noteCategoryInput" name="category" required>
+                  <option value="PERSONAL">Personal</option>
+                  <option value="WORK">Work</option>
+                  <option value="NOTE">Note</option>
+                </select>
               </div>
 
               <div class="notes-form__actions">
@@ -189,6 +201,15 @@
                 placeholder="Write your note here..."
                 required
         ></textarea>
+      </div>
+
+      <div class="notes-form__group">
+        <label class="notes-form__label" for="createNoteCategoryInput">Category</label>
+        <select class="notes-form__select" id="createNoteCategoryInput" name="category" required>
+          <option value="PERSONAL">Personal</option>
+          <option value="WORK">Work</option>
+          <option value="NOTE">Note</option>
+        </select>
       </div>
 
       <div class="notes-form__actions">
