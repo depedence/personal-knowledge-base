@@ -61,7 +61,7 @@ public class NoteServiceTest {
     @Story("Find Note by Id")
     @Severity(SeverityLevel.CRITICAL)
     @Description("Тест проверяет, что метод findById возвращает заметку, когда id заметки - валидный")
-    @DisplayName("findById - успешно находит и возвращает заметку")
+    @DisplayName("findById - find and return test note")
     void findById_IdIsValid__Success() {
         when(noteRepository.findById(testNote.getId())).thenReturn(Optional.of(testNote));
 
@@ -76,7 +76,7 @@ public class NoteServiceTest {
     @Story("Find Note by Id")
     @Severity(SeverityLevel.NORMAL)
     @Description("Тест проверяет, что метод findById возвращает ошибку, когда id заметки - невалидный")
-    @DisplayName("findById - успешно обрабатывает ошибку")
+    @DisplayName("findById - success return exception")
     void findById_IdIsInvalid__Failure() {
         when(noteRepository.findById(999)).thenReturn(Optional.empty());
 
@@ -87,7 +87,7 @@ public class NoteServiceTest {
     @Story("Save Note")
     @Severity(SeverityLevel.BLOCKER)
     @Description("Тест проверяет, что метод saveNote сохраняет заметку, когда User - существует")
-    @DisplayName("saveNote - успешно сохраняет заметку")
+    @DisplayName("saveNote - save test note")
     void saveNote_UserExist__Success() {
         CreateNoteRequest request = new CreateNoteRequest("NEW Title", "NEW Content", testUser.getId());
 
@@ -105,7 +105,7 @@ public class NoteServiceTest {
     @Story("Save Note")
     @Severity(SeverityLevel.NORMAL)
     @Description("Тест проверяет, что метод saveNote возвращает ошибку, когда User - не существует")
-    @DisplayName("saveNote - успешно обрабатывает ошибку")
+    @DisplayName("saveNote - success return exception")
     void saveNote_UserNotExist__Failure() {
         CreateNoteRequest request = new CreateNoteRequest("NEW Title", "NEW Content", 999);
 
@@ -118,7 +118,7 @@ public class NoteServiceTest {
     @Story("Edit Note")
     @Severity(SeverityLevel.CRITICAL)
     @Description("Тест проверяет, что метод editNote возвращает отредактированную заметку, когда NoteId - валидно")
-    @DisplayName("editNote - успешно редактирует заметку")
+    @DisplayName("editNote - edit test note")
     void editNote_NoteExist__Success() {
         CreateNoteRequest request = new CreateNoteRequest("Edit title", "edit content", testUser.getId());
 
@@ -136,7 +136,7 @@ public class NoteServiceTest {
     @Story("EditNote")
     @Severity(SeverityLevel.NORMAL)
     @Description("Тест проверяет, что метод editNote возвращает ошибку, когда NoteId - невалидно")
-    @DisplayName("editNote - успешно обрабатывает ошибку")
+    @DisplayName("editNote - success return exception")
     void editNote_NoteNotExits__Failure() {
         CreateNoteRequest request = new CreateNoteRequest("NEW Title", "NEW Content", testUser.getId());
 

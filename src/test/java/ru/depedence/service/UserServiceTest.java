@@ -1,5 +1,6 @@
 package ru.depedence.service;
 
+import io.qameta.allure.*;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -19,8 +20,10 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @Tag("unit")
+@Epic("Unit Testing")
+@Feature("User Service")
 @ExtendWith(MockitoExtension.class)
-@DisplayName("UserService Unit test")
+@DisplayName("UserService Unit Test")
 public class UserServiceTest {
 
     @Mock
@@ -40,6 +43,10 @@ public class UserServiceTest {
     }
 
     @Test
+    @Story("Find User by Id")
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("Тест проверяет, что метод findById возвращает пользователя, когда id пользователя - валидный")
+    @DisplayName("findById - find and return test user")
     void findById_UserExist__Success() {
         when(userRepository.findById(testUser.getId())).thenReturn(Optional.of(testUser));
 
@@ -52,6 +59,10 @@ public class UserServiceTest {
     }
 
     @Test
+    @Story("Find User by Id")
+    @Severity(SeverityLevel.NORMAL)
+    @Description("Тест проверяет, что метод findById возвращает ошибку, когда id пользователя - невалидный")
+    @DisplayName("findById - success return exception")
     void findById_UserNotExist__Failure() {
         when(userRepository.findById(999)).thenReturn(Optional.empty());
 
