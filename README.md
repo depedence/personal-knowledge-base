@@ -35,53 +35,16 @@ PKB — это веб-приложение для хранения и орган
 - Allure Reports
 - JaCoCo
 
-# Запуск
+# Запуск проекта
 
-## Требуется иметь
-- **Java 17+**
-- **Gradle**
-- **Docker(для поднятия PostgreSQL базы)**
-- **Любая IDE**
+### 1. Клонировать репозиторий
 
-## Подготовка БД
+`git clone https://github.com/depedence/personal-knowledge-base`
 
-1. Поднять Docker контейнер с PostgreSQL:
+### 2. Поднять docker контейнеры с бд и веб-приложением
 
-```bash
-   docker run \
-     --name postgres-database \
-     -e POSTGRES_USER=codekitchen \
-     -e POSTGRES_PASSWORD=12345678 \
-     -e POSTGRES_DB=codekitchen \
-     -p 5432:5432 \
-     -v postgres-database:/var/lib/postgresql/data \
-     postgres:15.3
-```
+`docker-compose up --build`
 
-## Запуск приложения
+### 3. После запуска контейнеров
 
-1. Клонировать репозиторий
-
-```bash
-git clone https://github.com/depedence/personal-knowledge-base.git
-```
-
-2. Открыть проект в IDE
-
-3. Настроить `application.properties`
-
-Файл `application.properties` уже закоммичен и настроен, (дополнительная настройка не требуется)
-
-4. Подождать инициализацию проекта и подтянуть все зависимости в `build.gradle.kts`
-
-5. Запустить `PkbApplication.java` через IDE
-
-## Старт приложения
-
-- Приложение стартует на https://localhost:8080/
-- `/` - стартовая страница
-- `/login` - страница авторизации
-- `/registration` - страница регистрации
-- `/account` - профиль
-
-Для первого входа **необходимо зарегистрироваться**
+После успешного запуска перейти на `localhost:8080/` и выполнить регистрацию, а после логин в созданный аккаунт
