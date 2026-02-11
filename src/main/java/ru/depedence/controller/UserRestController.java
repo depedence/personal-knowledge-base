@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import ru.depedence.entity.User;
 import ru.depedence.entity.dto.UserContainerDto;
 import ru.depedence.entity.dto.UserDto;
-import ru.depedence.entity.dto.request.CreateUserRequest;
 import ru.depedence.repository.UserRepository;
 import ru.depedence.service.UserService;
 
@@ -32,11 +31,6 @@ public class UserRestController {
     @GetMapping("/{id}")
     public UserDto findById(@PathVariable int id) {
         return userService.findById(id);
-    }
-
-    @PostMapping
-    public UserDto createUser(@RequestBody CreateUserRequest request) {
-        return userService.create(request);
     }
 
     @DeleteMapping("/{id}")

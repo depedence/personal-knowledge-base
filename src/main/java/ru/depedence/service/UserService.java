@@ -7,7 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.depedence.entity.User;
 import ru.depedence.entity.dto.UserContainerDto;
 import ru.depedence.entity.dto.UserDto;
-import ru.depedence.entity.dto.request.CreateUserRequest;
 import ru.depedence.repository.UserRepository;
 
 import java.util.List;
@@ -36,11 +35,6 @@ public class UserService {
         return userRepository.findById(id)
                 .map(User::toDto)
                 .orElseThrow(() -> new EntityNotFoundException("User with id = " + id + " not found"));
-    }
-
-    public UserDto create(CreateUserRequest request) {
-        User user = request.toEntity();
-        return userRepository.save(user).toDto();
     }
 
     public void delete(int id) {
