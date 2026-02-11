@@ -255,6 +255,24 @@ body {
     letter-spacing: 0.3px;
 }
 
+.notes-sidebar__item-category--work,
+.notes-content__category.notes-content__category--work {
+    color: #2a5bd7;
+    background: rgba(42, 91, 215, 0.14);
+}
+
+.notes-sidebar__item-category--personal,
+.notes-content__category.notes-content__category--personal {
+    color: #2d7a4f;
+    background: rgba(45, 122, 79, 0.12);
+}
+
+.notes-sidebar__item-category--note,
+.notes-content__category.notes-content__category--note {
+    color: #b28704;
+    background: rgba(255, 193, 7, 0.2);
+}
+
 .notes-sidebar__item-date {
     display: block;
     font-size: 0.8125rem;

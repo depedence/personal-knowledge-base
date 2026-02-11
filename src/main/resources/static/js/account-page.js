@@ -55,7 +55,7 @@ function renderNotesList() {
 
         noteItem.innerHTML = `
             <h4 class="notes-sidebar__item-title">${escapeHtml(note.title)}</h4>
-            <span class="notes-sidebar__item-category">${formatCategory(note.category)}</span>
+            <span class="notes-sidebar__item-category ${getSidebarCategoryClass(note.category)}">${formatCategory(note.category)}</span>
             <span class="notes-sidebar__item-date">${formatDate(note.creationDate)}</span>
         `;
 
@@ -84,7 +84,9 @@ async function showNote(noteId) {
     document.getElementById('noteView').style.display = 'block';
 
     document.getElementById('noteTitle').textContent = note.title;
-    document.getElementById('noteCategory').textContent = formatCategory(note.category);
+    const noteCategoryElement = document.getElementById('noteCategory');
+    noteCategoryElement.textContent = formatCategory(note.category);
+    noteCategoryElement.className = `notes-content__category ${getContentCategoryClass(note.category)}`;
     document.getElementById('noteBody').innerHTML = `<p>${escapeHtml(note.content).replace(/\n/g, '<br>')}</p>`;
     document.getElementById('noteCreated').textContent = `Created: ${formatDate(note.creationDate)}`;
     document.getElementById('noteUpdated').textContent = `Updated: ${formatDate(note.creationDate)}`;
@@ -246,4 +248,20 @@ function escapeHtml(text) {
 
 function formatCategory(category) {
     return CATEGORY_LABELS[category] || category;
+}
+
+function getSidebarCategoryClass(category) {
+    return {
+        WORK: 'notes-sidebar__item-category--work',
+        PERSONAL: 'notes-sidebar__item-category--personal',
+        NOTE: 'notes-sidebar__item-category--note'
+    }[category] || '';
+}
+
+function getContentCategoryClass(category) {
+    return {
+        WORK: 'notes-content__category--work',
+        PERSONAL: 'notes-content__category--personal',
+        NOTE: 'notes-content__category--note'
+    }[category] || '';
 }
