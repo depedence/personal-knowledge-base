@@ -32,6 +32,9 @@ public class AccountPage {
     @FindBy(id = "noteBody")
     private WebElement noteContent;
 
+    @FindBy(id = "noteCategory")
+    private WebElement noteCategory;
+
     public AccountPage(WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
@@ -66,6 +69,11 @@ public class AccountPage {
     public String getNoteContent() {
         wait.until(ExpectedConditions.visibilityOf(noteContent));
         return noteContent.getText();
+    }
+
+    public String getNoteCategory() {
+        wait.until(ExpectedConditions.visibilityOf(noteCategory));
+        return noteCategory.getText();
     }
 
 }

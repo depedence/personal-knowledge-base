@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import ru.depedence.base.BaseUiTest;
 import ru.depedence.helpers.TestDataHelper;
 import ru.depedence.pages.AccountPage;
+import ru.depedence.repository.NoteCategory;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -60,6 +61,7 @@ public class AccountPageTest extends BaseUiTest {
 
         assertTrue(accountPage.getNoteTitle().contains(title));
         assertTrue(accountPage.getNoteContent().contains(content));
+        assertTrue(accountPage.getNoteCategory().contains("Personal"));
     }
 
     @Attachment(value = "Screenshot: {name}", type = "image/png")

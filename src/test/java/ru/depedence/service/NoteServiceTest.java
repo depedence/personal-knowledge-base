@@ -14,6 +14,7 @@ import ru.depedence.entity.Note;
 import ru.depedence.entity.User;
 import ru.depedence.entity.dto.NoteDto;
 import ru.depedence.entity.dto.request.CreateNoteRequest;
+import ru.depedence.repository.NoteCategory;
 import ru.depedence.repository.NoteRepository;
 import ru.depedence.repository.UserRepository;
 
@@ -89,7 +90,7 @@ public class NoteServiceTest {
     @Description("Тест проверяет, что метод saveNote сохраняет заметку, когда User - существует")
     @DisplayName("saveNote - save test note")
     void saveNote_UserExist__Success() {
-        CreateNoteRequest request = new CreateNoteRequest("NEW Title", "NEW Content", testUser.getId());
+        CreateNoteRequest request = new CreateNoteRequest("NEW Title", "NEW Content", NoteCategory.NOTE, testUser.getId());
 
         when(userRepository.findById(testUser.getId())).thenReturn(Optional.of(testUser));
         when(noteRepository.save(any(Note.class))).thenReturn(testNote);
@@ -107,7 +108,7 @@ public class NoteServiceTest {
     @Description("Тест проверяет, что метод saveNote возвращает ошибку, когда User - не существует")
     @DisplayName("saveNote - success return exception")
     void saveNote_UserNotExist__Failure() {
-        CreateNoteRequest request = new CreateNoteRequest("NEW Title", "NEW Content", 999);
+        CreateNoteRequest request = new CreateNoteRequest("NEW Title", "NEW Content", NoteCategory.NOTE, 999);
 
         when(userRepository.findById(999)).thenReturn(Optional.empty());
 
@@ -120,7 +121,7 @@ public class NoteServiceTest {
     @Description("Тест проверяет, что метод editNote возвращает отредактированную заметку, когда NoteId - валидно")
     @DisplayName("editNote - edit test note")
     void editNote_NoteExist__Success() {
-        CreateNoteRequest request = new CreateNoteRequest("Edit title", "edit content", testUser.getId());
+        CreateNoteRequest request = new CreateNoteRequest("Edit title", "edit content", NoteCategory.NOTE, testUser.getId());
 
         when(noteRepository.findById(testNote.getId())).thenReturn(Optional.of(testNote));
         when(noteRepository.save(any(Note.class))).thenReturn(testNote);
@@ -138,7 +139,7 @@ public class NoteServiceTest {
     @Description("Тест проверяет, что метод editNote возвращает ошибку, когда NoteId - невалидно")
     @DisplayName("editNote - success return exception")
     void editNote_NoteNotExits__Failure() {
-        CreateNoteRequest request = new CreateNoteRequest("NEW Title", "NEW Content", testUser.getId());
+        CreateNoteRequest request = new CreateNoteRequest("NEW Title", "NEW Content", NoteCategory.NOTE, testUser.getId());
 
         when(noteRepository.findById(testNote.getId())).thenReturn(Optional.empty());
 

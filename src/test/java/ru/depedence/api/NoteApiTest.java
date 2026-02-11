@@ -11,6 +11,7 @@ import ru.depedence.entity.Note;
 import ru.depedence.entity.User;
 import ru.depedence.fixture.NoteFixture;
 import ru.depedence.helpers.TestDataHelper;
+import ru.depedence.repository.NoteCategory;
 import ru.depedence.repository.NoteRepository;
 
 import static io.restassured.RestAssured.given;
@@ -32,6 +33,10 @@ class NoteApiTest extends BaseApiTest {
 
     private User testUser;
 
+    String testNoteTitle = "testTitle";
+    String testNoteContent = "testContent";
+    NoteCategory category = NoteCategory.WORK;
+
     @BeforeEach
     void setUp() {
         dataHelper.cleanDatabase();
@@ -46,13 +51,14 @@ class NoteApiTest extends BaseApiTest {
     @Description("Создание новой заметки через API")
     @DisplayName("POST /api/notes - create note with valid data")
     void createValidNote_Success() {
-        var requestBody = NoteFixture.validCreateNoteRequest(testUser.getId(), "My first Note");
+        var requestBody = NoteFixture.validCreateNoteRequest(testUser.getId(), testNoteTitle, testNoteContent, category);
 
         Response response = given().spec(requestSpec).body(requestBody)
                 .when().post("/api/notes")
                 .then().statusCode(200)
                 .body("id", notNullValue())
-                .body("title", equalTo("My first Note"))
+                .body("title", equalTo(testNoteTitle))
+                .body("content", equalTo(testNoteContent))
                 .body("creationDate", notNullValue())
                 .body("userId", equalTo(testUser.getId()))
                 .extract().response();
@@ -61,8 +67,9 @@ class NoteApiTest extends BaseApiTest {
         assertTrue(noteRepository.existsById(noteId), "Note should exist in database");
 
         Note savedNote = noteRepository.findById(noteId).orElseThrow();
-        assertEquals("My first Note", savedNote.getTitle());
         assertEquals(testUser.getId(), savedNote.getUser().getId());
+        assertEquals(testNoteTitle, savedNote.getTitle());
+        assertEquals(testNoteContent, savedNote.getContent());
     }
 
     @Test
@@ -71,14 +78,15 @@ class NoteApiTest extends BaseApiTest {
     @Description("Получение всех заметок пользователя")
     @DisplayName("GET /api/notes - get all notes")
     void getAllNotes_Success() {
-        Note testNote = dataHelper.createTestNote("testNote", testUser);
+        Note testNote = dataHelper.createTestNote(testNoteTitle, testNoteContent, category, testUser);
 
         Response response = given().spec(requestSpec)
                 .when().get("/api/notes")
                 .then().statusCode(200)
                 .body("notes", notNullValue())
                 .body("notes[0].id",notNullValue())
-                .body("notes[0].title", equalTo("testNote"))
+                .body("notes[0].title", equalTo(testNoteTitle))
+                .body("notes[0].content", equalTo(testNoteContent))
                 .body("notes[0].creationDate", notNullValue())
                 .body("notes[0].userId", equalTo(testUser.getId()))
                 .extract().response();
@@ -86,7 +94,7 @@ class NoteApiTest extends BaseApiTest {
         int noteId = response.jsonPath().getInt("notes[0].id");
         assertTrue(noteRepository.existsById(noteId), "Note should exist in database");
 
-        assertEquals("testNote", testNote.getTitle());
+        assertEquals(testNoteTitle, testNote.getTitle());
         assertEquals(testUser.getId(), testNote.getUser().getId());
     }
 
@@ -96,14 +104,15 @@ class NoteApiTest extends BaseApiTest {
     @Description("Редактирование конкретной заметки")
     @DisplayName("PUT /api/notes/{noteId} - edit note")
     void editNote_Success() {
-        Note testNote = dataHelper.createTestNote("It's a not test note", testUser);
-        var requestBody = NoteFixture.validEditNoteRequest("It's a test note bro");
+        Note testNote = dataHelper.createTestNote(testNoteTitle, testNoteContent, category, testUser);
+        var requestBody = NoteFixture.validEditNoteRequest(testNoteTitle, testNoteContent, category, testUser.getId());
 
         Response response = given().spec(requestSpec).body(requestBody)
                 .when().put("/api/notes/" + testNote.getId())
                 .then().statusCode(200)
                 .body("id", notNullValue())
-                .body("title", equalTo("It's a test note bro"))
+                .body("title", equalTo(testNoteTitle))
+                .body("content", equalTo(testNoteContent))
                 .body("creationDate", notNullValue())
                 .body("userId", equalTo(testUser.getId()))
                 .extract().response();
@@ -112,7 +121,7 @@ class NoteApiTest extends BaseApiTest {
         assertTrue(noteRepository.existsById(noteId), "Note should exist in database");
 
         Note editedNote = noteRepository.findById(noteId).orElseThrow();
-        assertEquals("It's a test note bro", editedNote.getTitle());
+        assertEquals(testNoteTitle, editedNote.getTitle());
         assertEquals(testUser.getId(), editedNote.getUser().getId());
     }
 
@@ -122,7 +131,7 @@ class NoteApiTest extends BaseApiTest {
     @Description("Удаление конкретной заметки")
     @DisplayName("DELETE /api/notes/{noteId} - delete note")
     void deleteNote_Success() {
-        Note testNote = dataHelper.createTestNote("Temp Note for delete", testUser);
+        Note testNote = dataHelper.createTestNote(testNoteTitle, testNoteContent, category, testUser);
         int noteId = testNote.getId();
 
         Response response = given().spec(requestSpec)

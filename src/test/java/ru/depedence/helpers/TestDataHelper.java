@@ -5,6 +5,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import ru.depedence.entity.Note;
 import ru.depedence.entity.User;
+import ru.depedence.repository.NoteCategory;
 import ru.depedence.repository.NoteRepository;
 import ru.depedence.repository.UserRepository;
 
@@ -29,8 +30,8 @@ public class TestDataHelper {
         return userRepository.save(user);
     }
 
-    public Note createTestNote(String title, User user) {
-        Note note = new Note(title, "test content", LocalDateTime.now(), user);
+    public Note createTestNote(String title, String content, NoteCategory category, User user) {
+        Note note = new Note(title, content, category, LocalDateTime.now(), user);
         return noteRepository.save(note);
     }
 
