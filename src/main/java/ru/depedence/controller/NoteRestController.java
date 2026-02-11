@@ -1,5 +1,6 @@
 package ru.depedence.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -36,13 +37,13 @@ public class NoteRestController {
     }
 
     @PostMapping
-    public NoteDto createNote(@RequestBody CreateNoteRequest request) {
+    public NoteDto createNote(@Valid @RequestBody CreateNoteRequest request) {
         User currentUser = getCurrentUser();
         return noteService.saveNote(currentUser.getId(), request);
     }
 
     @PutMapping("/{noteId}")
-    public NoteDto editNote(@PathVariable int noteId, @RequestBody CreateNoteRequest request) {
+    public NoteDto editNote(@PathVariable int noteId, @Valid @RequestBody CreateNoteRequest request) {
         return noteService.editNote(noteId, request);
     }
 

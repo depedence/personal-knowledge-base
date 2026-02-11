@@ -29,4 +29,12 @@ public class NoteFixture {
         return request;
     }
 
+    public static Map<String, Object> invalidCreateNoteRequest(String title) {
+        Map<String, Object> request = new HashMap<>();
+
+        request.put("title", title);
+
+        return request;
+    }
+
 }

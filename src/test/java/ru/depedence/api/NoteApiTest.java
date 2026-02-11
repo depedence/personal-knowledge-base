@@ -73,6 +73,22 @@ class NoteApiTest extends BaseApiTest {
     }
 
     @Test
+    @Story("Create Note")
+    @Severity(SeverityLevel.BLOCKER)
+    @Description("Создание новой заметки через API")
+    @DisplayName("POST /api/notes - create note with invalid data")
+    void createInvalidNote__Failure() {
+        var requestBody = NoteFixture.invalidCreateNoteRequest(testNoteTitle);
+
+        Response response = given().spec(requestSpec).body(requestBody)
+                .when().post("/api/notes")
+                .then().statusCode(400)
+                .body("status", equalTo(400))
+                .body("error", equalTo("Bad Request"))
+                .extract().response();
+    }
+
+    @Test
     @Story("Get Note")
     @Severity(SeverityLevel.BLOCKER)
     @Description("Получение всех заметок пользователя")
