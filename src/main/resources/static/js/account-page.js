@@ -1,6 +1,7 @@
 let currentUser = null;
 let currentNoteId = null;
 let notes = [];
+let selectedCategoryFilter = 'ALL';
 const CATEGORY_LABELS = {
     PERSONAL: 'Personal',
     WORK: 'Work',
@@ -29,28 +30,48 @@ async function loadCurrentUser() {
 
 async function loadNotes() {
     const response = await fetch('/api/notes');
-    if (!response.ok) throw new Error("Failed to load notes");
+    if (!response.ok) throw new Error('Failed to load notes');
 
     const data = await response.json();
     notes = data.notes;
 
-    renderNotesList();
-
-    if (notes.length > 0) {
-        await showNote(notes[0].id);
-    } else {
-        showEmptyState()
-    }
+    await applyFilterAndRefreshSelection();
 }
 
-function renderNotesList() {
+async function applyFilterAndRefreshSelection() {
+    const filteredNotes = getFilteredNotes();
+    renderNotesList(filteredNotes);
+
+    if (filteredNotes.length === 0) {
+        showEmptyState();
+        return;
+    }
+
+    const hasCurrentNoteInFiltered = filteredNotes.some(note => note.id === currentNoteId);
+    const noteIdToShow = hasCurrentNoteInFiltered ? currentNoteId : filteredNotes[0].id;
+
+    await showNote(noteIdToShow);
+    setActiveNoteInSidebar(noteIdToShow);
+}
+
+function getFilteredNotes() {
+    if (selectedCategoryFilter === 'ALL') {
+        return notes;
+    }
+
+    return notes.filter(note => note.category === selectedCategoryFilter);
+}
+
+function renderNotesList(filteredNotes) {
     const notesList = document.getElementById('notesList');
     notesList.innerHTML = '';
 
-    notes.forEach((note, index) => {
+    filteredNotes.forEach(note => {
         const noteItem = document.createElement('div');
         noteItem.className = 'notes-sidebar__item';
-        if (index === 0) noteItem.classList.add('notes-sidebar__item--active');
+        if (note.id === currentNoteId) {
+            noteItem.classList.add('notes-sidebar__item--active');
+        }
         noteItem.dataset.noteId = note.id;
 
         noteItem.innerHTML = `
@@ -60,15 +81,17 @@ function renderNotesList() {
         `;
 
         noteItem.addEventListener('click', () => {
-            document.querySelectorAll('.notes-sidebar__item').forEach(item => {
-                item.classList.remove('notes-sidebar__item--active');
-            });
-            noteItem.classList.add('notes-sidebar__item--active');
-
+            setActiveNoteInSidebar(note.id);
             showNote(note.id);
         });
 
         notesList.appendChild(noteItem);
+    });
+}
+
+function setActiveNoteInSidebar(noteId) {
+    document.querySelectorAll('.notes-sidebar__item').forEach(item => {
+        item.classList.toggle('notes-sidebar__item--active', item.dataset.noteId === String(noteId));
     });
 }
 
@@ -130,6 +153,11 @@ function setupEventListeners() {
     document.getElementById('createNoteForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         await createNote();
+    });
+
+    document.getElementById('notesCategoryFilter').addEventListener('change', async (e) => {
+        selectedCategoryFilter = e.target.value;
+        await applyFilterAndRefreshSelection();
     });
 }
 

@@ -48,6 +48,15 @@
 
           <div class="notes-sidebar__header">
             <button class="notes-sidebar__add-button" id="newNoteButton">+ New Note</button>
+            <div class="notes-sidebar__filter">
+              <label class="notes-sidebar__filter-label" for="notesCategoryFilter">Category</label>
+              <select class="notes-form__select notes-sidebar__filter-select" id="notesCategoryFilter">
+                <option value="ALL">All notes</option>
+                <option value="WORK">Work</option>
+                <option value="PERSONAL">Personal</option>
+                <option value="NOTE">Note</option>
+              </select>
+            </div>
           </div>
 
           <div class="notes-sidebar__list" id="notesList">
