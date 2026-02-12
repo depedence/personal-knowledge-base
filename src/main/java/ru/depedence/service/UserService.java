@@ -2,6 +2,10 @@ package ru.depedence.service;
 
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,11 +24,13 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final CustomUserDetailsService userDetailsService;
 
     @Autowired
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, CustomUserDetailsService userDetailsService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.userDetailsService = userDetailsService;
     }
 
     public UserContainerDto findAll() {
@@ -44,8 +50,11 @@ public class UserService {
     public UserDto updateUser(int id, UpdateUserRequest request) {
         return userRepository.findById(id)
                 .map(existingUser -> {
+                    boolean usernameChanged = false;
+
                     if (request.username() != null && !request.username().isBlank()) {
                         existingUser.setUsername(request.username());
+                        usernameChanged = true;
                     }
 
                     if (request.password() != null && !request.password().isBlank()) {
@@ -53,13 +62,37 @@ public class UserService {
                         existingUser.setPassword(hashedPassword);
                     }
 
-                    return userRepository.save(existingUser).toDto();
+                    User updatedUser = userRepository.save(existingUser);
+
+                    if (usernameChanged) {
+                        updateSecurityContext(updatedUser.getUsername());
+                    }
+
+                    return updatedUser.toDto();
                 })
                 .orElseThrow(() -> new EntityNotFoundException("User with id = " + id + " not found"));
     }
 
     public void delete(int id) {
         userRepository.deleteById(id);
+    }
+
+    public void updateSecurityContext(String newUsername) {
+        Authentication currentAuth = SecurityContextHolder.getContext().getAuthentication();
+        if (currentAuth == null) {
+            return;
+        }
+
+        UserDetails updatedUserDetails = userDetailsService.loadUserByUsername(newUsername);
+
+        UsernamePasswordAuthenticationToken newAuth = new UsernamePasswordAuthenticationToken(
+                updatedUserDetails,
+                currentAuth.getCredentials(),
+                updatedUserDetails.getAuthorities()
+        );
+        newAuth.setDetails(currentAuth.getDetails());
+
+        SecurityContextHolder.getContext().setAuthentication(newAuth);
     }
 
 }

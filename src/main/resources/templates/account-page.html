@@ -51,12 +51,16 @@
         <div class="account-details">
           <div class="account-detail">
             <span class="account-detail__label">Username</span>
-            <span class="account-detail__value" id="accountUsername"></span>
+            <div class="account-detail__row">
+              <span class="account-detail__value" id="accountUsername"></span>
+              <button class="account-detail__action" id="changeUsernameButton" type="button">Change username</button>
+            </div>
           </div>
 
           <div class="account-detail account-detail--password">
             <span class="account-detail__label">Password</span>
-            <div class="account-detail__password">
+            <div class="account-detail__row">
+              <div class="account-detail__password">
               <input
                       class="account-detail__input"
                       id="accountPassword"
@@ -74,17 +78,44 @@
                   <path d="M12 5c-4.8 0-8.9 2.9-11 7 2.1 4.1 6.2 7 11 7s8.9-2.9 11-7c-2.1-4.1-6.2-7-11-7zm0 11a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm0-6.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5z"/>
                 </svg>
               </button>
+              </div>
+              <button class="account-detail__action" id="changePasswordButton" type="button">Change password</button>
             </div>
           </div>
-        </div>
-
-        <div class="account-actions">
-          <button class="account-actions__button" type="button">Edit data</button>
         </div>
       </div>
     </div>
   </div>
 
+</div>
+
+<div class="modal" id="accountEditModal">
+  <div class="modal__overlay" id="accountModalOverlay"></div>
+  <div class="modal__content">
+    <div class="modal__header">
+      <h2 class="modal__title" id="accountModalTitle">Change data</h2>
+      <button type="button" class="modal__close" id="accountModalClose">&times;</button>
+    </div>
+
+    <form class="notes-form" id="accountEditForm">
+      <div class="notes-form__group">
+        <label class="notes-form__label" id="accountModalLabel" for="accountModalInput">Value</label>
+        <input
+                class="notes-form__input"
+                id="accountModalInput"
+                name="value"
+                type="text"
+                required
+        >
+        <span class="account-modal__error" id="accountModalError" role="alert"></span>
+      </div>
+
+      <div class="notes-form__actions">
+        <button type="button" class="notes-form__button account-modal__button--cancel" id="accountModalCancel">Cancel</button>
+        <button type="submit" class="notes-form__button notes-form__button--save" id="accountModalSubmit">Change</button>
+      </div>
+    </form>
+  </div>
 </div>
 
 <script src="/js/account-page.js"></script>

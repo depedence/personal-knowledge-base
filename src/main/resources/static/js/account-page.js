@@ -5,24 +5,93 @@ document.addEventListener('DOMContentLoaded', async () => {
     const userIdValue = document.getElementById('accountUserId');
     const headerUsername = document.querySelector('.header-container__controls-text');
 
-    if (!passwordInput || !toggleButton || !usernameValue || !userIdValue) {
+    const changeUsernameButton = document.getElementById('changeUsernameButton');
+    const changePasswordButton = document.getElementById('changePasswordButton');
+
+    const modal = document.getElementById('accountEditModal');
+    const modalOverlay = document.getElementById('accountModalOverlay');
+    const modalClose = document.getElementById('accountModalClose');
+    const modalCancel = document.getElementById('accountModalCancel');
+    const modalTitle = document.getElementById('accountModalTitle');
+    const modalLabel = document.getElementById('accountModalLabel');
+    const modalInput = document.getElementById('accountModalInput');
+    const modalError = document.getElementById('accountModalError');
+    const modalForm = document.getElementById('accountEditForm');
+
+    if (!passwordInput || !toggleButton || !usernameValue || !userIdValue || !modal || !modalForm) {
         return;
     }
 
-    try {
+    let currentUser = null;
+    let currentField = null;
+
+    async function loadCurrentUser() {
         const response = await fetch('/api/users/me');
         if (!response.ok) {
             throw new Error('Failed to load user');
         }
 
         const user = await response.json();
-        usernameValue.textContent = user.username || '—';
-        userIdValue.textContent = `ID: ${user.id ?? '—'}`;
+        currentUser = user;
+        usernameValue.textContent = user.username || '?';
+        userIdValue.textContent = `ID: ${user.id ?? '?'}`;
         passwordInput.value = user.password || '';
 
         if (headerUsername) {
             headerUsername.textContent = user.username || '';
         }
+    }
+
+    function openModal(field) {
+        currentField = field;
+        modalError.textContent = '';
+        modalInput.value = '';
+
+        if (field === 'username') {
+            modalTitle.textContent = 'Change username';
+            modalLabel.textContent = 'Username';
+            modalInput.type = 'text';
+            modalInput.placeholder = 'Enter new username';
+        } else {
+            modalTitle.textContent = 'Change password';
+            modalLabel.textContent = 'Password';
+            modalInput.type = 'password';
+            modalInput.placeholder = 'Enter new password';
+        }
+
+        modal.classList.add('modal--visible');
+        document.body.classList.add('modal-open');
+        setTimeout(() => modalInput.focus(), 0);
+    }
+
+    function closeModal() {
+        modal.classList.remove('modal--visible');
+        document.body.classList.remove('modal-open');
+        currentField = null;
+    }
+
+    function validateValue(value) {
+        if (!value) {
+            return 'Value cannot be empty.';
+        }
+
+        if (currentField === 'username') {
+            if (value.length < 3 || value.length > 50) {
+                return 'Username must be between 3 and 50 characters.';
+            }
+        }
+
+        if (currentField === 'password') {
+            if (value.length < 4) {
+                return 'Password must be at least 4 characters.';
+            }
+        }
+
+        return '';
+    }
+
+    try {
+        await loadCurrentUser();
     } catch (error) {
         console.error('Failed to load user data:', error);
         window.location.href = '/login';
@@ -33,5 +102,55 @@ document.addEventListener('DOMContentLoaded', async () => {
         passwordInput.type = isHidden ? 'text' : 'password';
         toggleButton.classList.toggle('account-detail__toggle--active', isHidden);
         toggleButton.setAttribute('aria-label', isHidden ? 'Hide password' : 'Show password');
+    });
+
+    if (changeUsernameButton) {
+        changeUsernameButton.addEventListener('click', () => openModal('username'));
+    }
+
+    if (changePasswordButton) {
+        changePasswordButton.addEventListener('click', () => openModal('password'));
+    }
+
+    modalOverlay.addEventListener('click', closeModal);
+    modalClose.addEventListener('click', closeModal);
+    modalCancel.addEventListener('click', closeModal);
+
+    modalForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const value = modalInput.value.trim();
+        const error = validateValue(value);
+
+        if (error) {
+            modalError.textContent = error;
+            return;
+        }
+
+        if (!currentUser || !currentField) {
+            modalError.textContent = 'User data is not ready. Please try again.';
+            return;
+        }
+
+        const payload = currentField === 'username'
+            ? { username: value }
+            : { password: value };
+
+        try {
+            const response = await fetch(`/api/users/${currentUser.id}`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to update user');
+            }
+
+            closeModal();
+            await loadCurrentUser();
+        } catch (error) {
+            console.error('Update failed:', error);
+            modalError.textContent = 'Failed to update. Please try again.';
+        }
     });
 });
