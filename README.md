@@ -15,7 +15,6 @@ PKB — это веб-приложение для хранения и орган
 - Unit тесты JUnit5 [✓]
 - Allure reports [✓]
 - JaCoCo integrations [✓]
-- CI/CD pipeline [?]
 - Категории заметок [✓]
 - Фильтр по категориям [✓]
 
