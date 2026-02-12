@@ -1,5 +1,6 @@
 package ru.depedence.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -7,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.depedence.entity.User;
 import ru.depedence.entity.dto.UserContainerDto;
 import ru.depedence.entity.dto.UserDto;
+import ru.depedence.entity.dto.request.UpdateUserRequest;
 import ru.depedence.repository.UserRepository;
 import ru.depedence.service.UserService;
 
@@ -31,6 +33,11 @@ public class UserRestController {
     @GetMapping("/{id}")
     public UserDto findById(@PathVariable int id) {
         return userService.findById(id);
+    }
+
+    @PatchMapping("/{id}")
+    public UserDto updateUser(@PathVariable int id, @Valid @RequestBody UpdateUserRequest request) {
+        return userService.updateUser(id, request);
     }
 
     @DeleteMapping("/{id}")
