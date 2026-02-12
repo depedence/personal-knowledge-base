@@ -15,10 +15,10 @@ public class User {
     @Column(name = "id")
     private int id;
 
-    @Column(name = "username")
+    @Column(name = "username", nullable = false, length = 16)
     private String username;
 
-    @Column(name = "password")
+    @Column(name = "password", nullable = false, length = 255)
     private String password;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)

@@ -33,8 +33,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         const user = await response.json();
         currentUser = user;
-        usernameValue.textContent = user.username || '?';
-        userIdValue.textContent = `ID: ${user.id ?? '?'}`;
+        usernameValue.textContent = user.username || '—';
+        userIdValue.textContent = `ID: ${user.id ?? '—'}`;
         passwordInput.value = user.password || '';
 
         if (headerUsername) {
@@ -52,11 +52,15 @@ document.addEventListener('DOMContentLoaded', async () => {
             modalLabel.textContent = 'Username';
             modalInput.type = 'text';
             modalInput.placeholder = 'Enter new username';
+            modalInput.minLength = 4;
+            modalInput.maxLength = 16;
         } else {
             modalTitle.textContent = 'Change password';
             modalLabel.textContent = 'Password';
             modalInput.type = 'password';
             modalInput.placeholder = 'Enter new password';
+            modalInput.minLength = 4;
+            modalInput.maxLength = 255;
         }
 
         modal.classList.add('modal--visible');
@@ -72,18 +76,18 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     function validateValue(value) {
         if (!value) {
-            return 'Value cannot be empty.';
+            return 'Поле не должно быть пустым.';
         }
 
         if (currentField === 'username') {
-            if (value.length < 3 || value.length > 50) {
-                return 'Username must be between 3 and 50 characters.';
+            if (value.length < 4 || value.length > 16) {
+                return 'Ник должен быть от 4 до 16 символов.';
             }
         }
 
         if (currentField === 'password') {
             if (value.length < 4) {
-                return 'Password must be at least 4 characters.';
+                return 'Пароль должен быть не короче 4 символов.';
             }
         }
 
@@ -127,7 +131,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         if (!currentUser || !currentField) {
-            modalError.textContent = 'User data is not ready. Please try again.';
+            modalError.textContent = 'Данные пользователя ещё не загружены. Попробуйте снова.';
             return;
         }
 
@@ -143,14 +147,15 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
 
             if (!response.ok) {
-                throw new Error('Failed to update user');
+                const errorPayload = await response.json().catch(() => ({}));
+                throw new Error(errorPayload.error || 'Не удалось обновить данные');
             }
 
             closeModal();
             await loadCurrentUser();
         } catch (error) {
             console.error('Update failed:', error);
-            modalError.textContent = 'Failed to update. Please try again.';
+            modalError.textContent = error.message || 'Не удалось обновить данные. Попробуйте снова.';
         }
     });
 });

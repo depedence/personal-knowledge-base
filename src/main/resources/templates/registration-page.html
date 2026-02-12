@@ -14,10 +14,10 @@
         <div class="form-container">
             <form id="registrationForm" class="form-container__form">
                 <div class="form-container__input-wrapper">
-                    <input type="text" name="username" id="username" placeholder="Enter your username" class="form-container__input" required>
+                    <input type="text" name="username" id="username" placeholder="Enter your username" class="form-container__input" minlength="4" maxlength="16" required>
                 </div>
                 <div class="form-container__input-wrapper">
-                    <input type="password" name="password" id="password" placeholder="Enter your password" class="form-container__input" required>
+                    <input type="password" name="password" id="password" placeholder="Enter your password" class="form-container__input" minlength="4" maxlength="255" required>
                 </div>
                 <div class="form-container__warning-wrapper" id="errorBlock" style="display: none;">
                     <span class="form-container__warning" id="errorMessage"></span>
@@ -35,11 +35,42 @@
 
 <script>
 
+    function validateRegistration(username, password) {
+        const trimmedUsername = username.trim();
+        const trimmedPassword = password.trim();
+
+        if (!trimmedUsername) {
+            return 'Ник не должен быть пустым.';
+        }
+
+        if (trimmedUsername.length < 4 || trimmedUsername.length > 16) {
+            return 'Ник должен быть от 4 до 16 символов.';
+        }
+
+        if (!trimmedPassword) {
+            return 'Пароль не должен быть пустым.';
+        }
+
+        if (trimmedPassword.length < 4) {
+            return 'Пароль должен быть не короче 4 символов.';
+        }
+
+        return '';
+    }
+
     document.getElementById('registrationForm').addEventListener('submit', async (e) => {
         e.preventDefault();
 
         const username = document.getElementById('username').value;
         const password = document.getElementById('password').value;
+        const normalizedUsername = username.trim();
+        const normalizedPassword = password.trim();
+        const validationError = validateRegistration(normalizedUsername, normalizedPassword);
+
+        if (validationError) {
+            showError(validationError);
+            return;
+        }
 
         try {
             const response = await fetch('/api/auth/register', {
@@ -47,17 +78,17 @@
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ username, password })
+                body: JSON.stringify({ username: normalizedUsername, password: normalizedPassword })
             });
 
             if (response.ok) {
                 window.location.href = '/home';
             } else {
                 const error = await response.json();
-                showError(error.error || 'Registration failed');
+                showError(error.error || 'Не удалось зарегистрироваться');
             }
         } catch (err) {
-            showError('Network error. Please try again');
+            showError('Ошибка сети. Попробуйте снова');
         }
     })
 

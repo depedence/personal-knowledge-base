@@ -15,17 +15,17 @@ public class Note {
     @Column(name = "id")
     private int id;
 
-    @Column(name = "title", nullable = false)
+    @Column(name = "title", nullable = false, length = 32)
     private String title;
 
-    @Column(name = "content", nullable = false)
+    @Column(name = "content", nullable = false, length = 255)
     private String content;
 
-    @Column(name = "category", nullable = false)
+    @Column(name = "category", nullable = false, length = 16)
     @Enumerated(EnumType.STRING)
     private NoteCategory category;
 
-    @Column(name = "creation_date")
+    @Column(name = "creation_date", nullable = false)
     private LocalDateTime creationDate;
 
     @ManyToOne

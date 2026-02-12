@@ -12,6 +12,7 @@ import ru.depedence.entity.dto.request.CreateNoteRequest;
 import ru.depedence.repository.NoteRepository;
 import ru.depedence.repository.UserRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,7 +30,8 @@ public class NoteService {
     }
 
     public NoteContainerDto findAllByUserId(int userId) {
-        User user = userRepository.findById(userId).orElseThrow();
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User with id = " + userId + " not found"));
         List<NoteDto> noteDto = user.getNotes().stream()
                 .map(Note::toDto)
                 .collect(Collectors.toList());
@@ -59,6 +61,8 @@ public class NoteService {
                 .map(existingNote -> {
                     existingNote.setTitle(request.title());
                     existingNote.setContent(request.content());
+                    existingNote.setCategory(request.category());
+                    existingNote.setCreationDate(LocalDateTime.now());
                     return noteRepository.save(existingNote).toDto();
                 })
                 .orElseThrow(() -> new EntityNotFoundException("Note with id = " + id + " not found"));

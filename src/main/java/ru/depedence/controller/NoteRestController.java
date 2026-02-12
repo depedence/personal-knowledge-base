@@ -58,7 +58,7 @@ public class NoteRestController {
         User user = userRepository.findByUsername(username);
 
         if (user == null) {
-            throw new RuntimeException("User not found");
+            throw new jakarta.persistence.EntityNotFoundException("User not found");
         }
 
         return user;

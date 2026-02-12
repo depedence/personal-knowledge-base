@@ -14,10 +14,10 @@
         <div class="form-container">
             <form action="/login" method="post" class="form-container__form">
                 <div class="form-container__input-wrapper">
-                    <input type="text" name="username" placeholder="Enter your username" class="form-container__input" required>
+                    <input type="text" name="username" placeholder="Enter your username" class="form-container__input" minlength="4" maxlength="16" required>
                 </div>
                 <div class="form-container__input-wrapper">
-                    <input type="password" name="password" placeholder="Enter your password" class="form-container__input" required>
+                    <input type="password" name="password" placeholder="Enter your password" class="form-container__input" minlength="4" maxlength="255" required>
                 </div>
                 <div class="form-container__warning-wrapper" id="errorBlock" style="display: none;">
                     <span class="form-container__warning">Wrong username or password</span>

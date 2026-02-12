@@ -19,6 +19,29 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 })
 
+function validateNoteInput(title, content) {
+    const trimmedTitle = title.trim();
+    const trimmedContent = content.trim();
+
+    if (!trimmedTitle) {
+        return 'Название заметки не должно быть пустым.';
+    }
+
+    if (trimmedTitle.length < 1 || trimmedTitle.length > 32) {
+        return 'Название заметки должно быть от 1 до 32 символов.';
+    }
+
+    if (!trimmedContent) {
+        return 'Текст заметки не должен быть пустым.';
+    }
+
+    if (trimmedContent.length < 1 || trimmedContent.length > 255) {
+        return 'Текст заметки должен быть от 1 до 255 символов.';
+    }
+
+    return '';
+}
+
 async function loadCurrentUser() {
     const response = await fetch('/api/users/me');
     if (!response.ok) throw new Error('Failed to load user');
@@ -186,6 +209,12 @@ async function createNote() {
     const content = document.getElementById('createNoteContentInput').value;
     const category = document.getElementById('createNoteCategoryInput').value;
 
+    const validationError = validateNoteInput(title, content);
+    if (validationError) {
+        alert(validationError);
+        return;
+    }
+
     const response = await fetch('/api/notes', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -198,7 +227,8 @@ async function createNote() {
     });
 
     if (!response.ok) {
-        alert('Failed to create note');
+        const errorPayload = await response.json().catch(() => ({}));
+        alert(errorPayload.error || 'Не удалось создать заметку');
         return;
     }
 
@@ -227,6 +257,12 @@ async function saveEditedNote() {
     const content = document.getElementById('noteContentInput').value;
     const category = document.getElementById('noteCategoryInput').value;
 
+    const validationError = validateNoteInput(title, content);
+    if (validationError) {
+        alert(validationError);
+        return;
+    }
+
     const response = await fetch(`/api/notes/${currentNoteId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
@@ -239,7 +275,8 @@ async function saveEditedNote() {
     });
 
     if (!response.ok) {
-        alert('Failed to save note');
+        const errorPayload = await response.json().catch(() => ({}));
+        alert(errorPayload.error || 'Не удалось сохранить заметку');
         return;
     }
 
