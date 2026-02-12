@@ -9,7 +9,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
-public class AccountPage {
+public class HomePage {
 
     private final WebDriver driver;
     private final WebDriverWait wait;
@@ -35,7 +35,7 @@ public class AccountPage {
     @FindBy(id = "noteCategory")
     private WebElement noteCategory;
 
-    public AccountPage(WebDriver driver) {
+    public HomePage(WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         PageFactory.initElements(driver, this);
@@ -46,7 +46,7 @@ public class AccountPage {
     }
 
     public void open(String baseUrl) {
-        driver.get(baseUrl + "/account");
+        driver.get(baseUrl + "/home");
     }
 
     public void openModalAndFillInputs(String title, String content) {

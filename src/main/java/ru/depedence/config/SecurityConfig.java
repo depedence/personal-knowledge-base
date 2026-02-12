@@ -23,13 +23,13 @@ public class SecurityConfig {
                         .requestMatchers("/login", "/error", "/registration", "/static", "/css/**", "/js/**", "/images/**").permitAll()
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/**").authenticated()
-                        .requestMatchers("/account", "/private/**").authenticated()
+                        .requestMatchers("/home", "/account", "/private/**").authenticated()
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
                         .loginPage("/login")
                         .loginProcessingUrl("/login")
-                        .defaultSuccessUrl("/account",true)
+                        .defaultSuccessUrl("/home", true)
                         .permitAll()
                 )
                 .logout(logout -> logout

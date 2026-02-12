@@ -35,7 +35,7 @@ public class LoginPageTest extends BaseUiTest {
         loginPage.login("testUser", "testPassword");
         loginPage.waitForRedirect();
 
-        assertTrue(loginPage.getCurrentUrl().contains("/account"));
+        assertTrue(loginPage.getCurrentUrl().contains("/home"));
     }
 
     @Test

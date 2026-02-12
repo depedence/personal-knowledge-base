@@ -1,549 +1,175 @@
-/* Минималистичная библиотека - Account Page */
+@import url('/css/home-page.css');
 
-@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Inter:wght@400;500;600&display=swap');
-
-/* ============================================
-   СБРОС И БАЗОВЫЕ СТИЛИ
-   ============================================ */
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-    color: #2c3e50;
-    line-height: 1.6;
-    min-height: 100vh;
-}
-
-/* ============================================
-   LAYOUT
-   ============================================ */
-
-.page-wrapper {
-    min-height: 100vh;
+.account-page .container {
     display: flex;
-    flex-direction: column;
+    justify-content: center;
 }
 
-.container {
+.account-card {
     width: 100%;
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 0 2rem;
-}
-
-/* ============================================
-   HEADER
-   ============================================ */
-
-.header-wrapper {
+    max-width: 720px;
     background: #ffffff;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-    position: sticky;
-    top: 0;
-    z-index: 100;
+    border-radius: 18px;
+    padding: 2.5rem 3rem;
+    box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.08),
+    0 2px 6px rgba(0, 0, 0, 0.04);
 }
 
-.header-container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1.25rem 0;
-    gap: 2rem;
-}
-
-.header-container__left-menu,
-.header-container__right-menu {
+.account-card__header {
     display: flex;
     align-items: center;
     gap: 1.5rem;
-}
-
-.header-container__controls {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-}
-
-.header-container__controls-text {
-    font-size: 0.9375rem;
-    color: #5a6c7d;
-    font-weight: 500;
-}
-
-.header-container__controls-link {
-    font-size: 0.9375rem;
-    color: #2d7a4f;
-    text-decoration: none;
-    font-weight: 600;
-    padding: 0.5rem 1rem;
-    border-radius: 8px;
-    transition: all 0.2s ease;
-    position: relative;
-}
-
-.header-container__controls-link:hover {
-    background: rgba(45, 122, 79, 0.08);
-    color: #25633f;
-}
-
-.header-container__title h2 {
-    font-family: 'Merriweather', Georgia, serif;
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: #1a2332;
-    letter-spacing: -0.3px;
-}
-
-/* ============================================
-   MAIN PAGE
-   ============================================ */
-
-.main-page {
-    flex: 1;
-    padding: 2rem 0;
-}
-
-/* ============================================
-   NOTES CONTAINER (Grid Layout)
-   ============================================ */
-
-.notes-container {
-    display: grid;
-    grid-template-columns: 320px 1fr;
-    gap: 2rem;
-    min-height: calc(100vh - 200px);
-}
-
-/* ============================================
-   SIDEBAR
-   ============================================ */
-
-.notes-sidebar {
-    background: #ffffff;
-    border-radius: 16px;
-    padding: 1.5rem;
-    box-shadow:
-    0 4px 16px rgba(0, 0, 0, 0.06),
-    0 1px 4px rgba(0, 0, 0, 0.03);
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
-    height: fit-content;
-    position: sticky;
-    top: 100px;
-}
-
-.notes-sidebar__header {
-    display: flex;
-    flex-direction: column;
-    gap: 0.875rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid #e9ecef;
-}
-
-.notes-sidebar__filter {
-    display: flex;
-    flex-direction: column;
-    gap: 0.375rem;
-}
-
-.notes-sidebar__filter-label {
-    font-size: 0.8125rem;
-    font-weight: 600;
-    color: #5a6c7d;
-    letter-spacing: 0.2px;
-}
-
-.notes-sidebar__filter-select {
-    padding: 0.625rem 0.875rem;
-    font-size: 0.875rem;
-}
-
-.notes-sidebar__add-button {
-    width: 100%;
-    padding: 0.875rem 1.25rem;
-    font-family: 'Inter', sans-serif;
-    font-size: 0.9375rem;
-    font-weight: 600;
-    color: #ffffff;
-    background: linear-gradient(135deg, #2d7a4f 0%, #25633f 100%);
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: all 0.25s ease;
-    box-shadow:
-    0 4px 12px rgba(45, 122, 79, 0.25),
-    0 2px 4px rgba(0, 0, 0, 0.1);
-    letter-spacing: 0.3px;
-}
-
-.notes-sidebar__add-button:hover {
-    background: linear-gradient(135deg, #25633f 0%, #1d4d31 100%);
-    transform: translateY(-2px);
-    box-shadow:
-    0 8px 20px rgba(45, 122, 79, 0.3),
-    0 4px 8px rgba(0, 0, 0, 0.15);
-}
-
-.notes-sidebar__add-button:active {
-    transform: translateY(0);
-    box-shadow:
-    0 2px 8px rgba(45, 122, 79, 0.3),
-    0 1px 4px rgba(0, 0, 0, 0.15);
-}
-
-.notes-sidebar__list {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    overflow-y: auto;
-    max-height: calc(100vh - 300px);
-    padding-right: 0.25rem;
-}
-
-/* Кастомный скроллбар */
-.notes-sidebar__list::-webkit-scrollbar {
-    width: 6px;
-}
-
-.notes-sidebar__list::-webkit-scrollbar-track {
-    background: #f8f9fa;
-    border-radius: 3px;
-}
-
-.notes-sidebar__list::-webkit-scrollbar-thumb {
-    background: #d1d8dd;
-    border-radius: 3px;
-}
-
-.notes-sidebar__list::-webkit-scrollbar-thumb:hover {
-    background: #2d7a4f;
-}
-
-.notes-sidebar__item {
-    padding: 1rem;
-    background: #f8f9fa;
-    border: 2px solid transparent;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: all 0.25s ease;
-}
-
-.notes-sidebar__item:hover {
-    background: #ffffff;
-    border-color: #e9ecef;
-    transform: translateX(4px);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-}
-
-.notes-sidebar__item--active {
-    background: #ffffff;
-    border-color: #2d7a4f;
-    box-shadow: 0 2px 8px rgba(45, 122, 79, 0.15);
-}
-
-.notes-sidebar__item--active:hover {
-    transform: translateX(0);
-}
-
-.notes-sidebar__item-title {
-    font-size: 0.9375rem;
-    font-weight: 600;
-    color: #1a2332;
-    margin-bottom: 0.25rem;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.notes-sidebar__item-category {
-    display: inline-flex;
-    align-items: center;
-    width: fit-content;
-    margin-bottom: 0.375rem;
-    padding: 0.15rem 0.5rem;
-    font-size: 0.6875rem;
-    font-weight: 600;
-    color: #2d7a4f;
-    background: rgba(45, 122, 79, 0.12);
-    border-radius: 999px;
-    letter-spacing: 0.3px;
-}
-
-.notes-sidebar__item-category--work,
-.notes-content__category.notes-content__category--work {
-    color: #2a5bd7;
-    background: rgba(42, 91, 215, 0.14);
-}
-
-.notes-sidebar__item-category--personal,
-.notes-content__category.notes-content__category--personal {
-    color: #2d7a4f;
-    background: rgba(45, 122, 79, 0.12);
-}
-
-.notes-sidebar__item-category--note,
-.notes-content__category.notes-content__category--note {
-    color: #b28704;
-    background: rgba(255, 193, 7, 0.2);
-}
-
-.notes-sidebar__item-date {
-    display: block;
-    font-size: 0.8125rem;
-    color: #5a6c7d;
-}
-
-/* ============================================
-   CONTENT AREA
-   ============================================ */
-
-.notes-content {
-    background: #ffffff;
-    border-radius: 16px;
-    padding: 2.5rem 3rem;
-    box-shadow:
-    0 4px 16px rgba(0, 0, 0, 0.06),
-    0 1px 4px rgba(0, 0, 0, 0.03);
-    min-height: 500px;
-}
-
-/* View Mode */
-.notes-content__view {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-}
-
-.notes-content__header {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 2rem;
     padding-bottom: 1.5rem;
     border-bottom: 2px solid #e9ecef;
 }
 
-.notes-content__title-wrap {
-    flex: 1;
+.account-avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #2d7a4f 0%, #25633f 100%);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.5rem;
+    letter-spacing: 0.5px;
+    box-shadow: 0 6px 16px rgba(45, 122, 79, 0.25);
 }
 
-.notes-content__title {
+.account-card__title-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.account-card__title {
     font-family: 'Merriweather', Georgia, serif;
     font-size: 2rem;
     font-weight: 700;
     color: #1a2332;
-    letter-spacing: -0.5px;
+    letter-spacing: -0.4px;
 }
 
-.notes-content__category {
-    display: inline-flex;
-    align-items: center;
-    margin-top: 0.625rem;
-    padding: 0.25rem 0.625rem;
-    font-size: 0.75rem;
+.account-card__subtitle {
+    font-size: 0.95rem;
+    color: #5a6c7d;
+}
+
+.account-card__meta {
+    font-size: 0.85rem;
+    color: #8a97a5;
+}
+
+.account-details {
+    display: grid;
+    gap: 1.5rem;
+    padding: 2rem 0 1.5rem;
+}
+
+.account-detail {
+    display: grid;
+    gap: 0.5rem;
+}
+
+.account-detail__label {
+    font-size: 0.85rem;
     font-weight: 600;
-    color: #2d7a4f;
-    background: rgba(45, 122, 79, 0.1);
-    border-radius: 999px;
+    color: #5a6c7d;
     letter-spacing: 0.3px;
+    text-transform: uppercase;
 }
 
-.notes-content__actions {
+.account-detail__value {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #1a2332;
+}
+
+.account-detail__hint {
+    font-size: 0.85rem;
+    color: #7a8a99;
+}
+
+.account-detail__password {
     display: flex;
+    align-items: center;
     gap: 0.75rem;
 }
 
-.notes-content__button {
-    padding: 0.625rem 1.25rem;
+.account-detail__input {
+    flex: 1;
+    padding: 0.85rem 1rem;
     font-family: 'Inter', sans-serif;
-    font-size: 0.875rem;
-    font-weight: 600;
+    font-size: 1rem;
+    background: #f8f9fa;
     border: 2px solid #e9ecef;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.25s ease;
-    background: #ffffff;
+    border-radius: 10px;
     color: #2c3e50;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+    letter-spacing: 0.6px;
 }
 
-.notes-content__button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
-}
-
-.notes-content__button--edit {
+.account-detail__input:focus {
+    outline: none;
     border-color: #2d7a4f;
-    color: #2d7a4f;
+    box-shadow: 0 0 0 4px rgba(45, 122, 79, 0.08);
 }
 
-.notes-content__button--edit:hover {
+.account-detail__toggle {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    border: none;
+    background: rgba(45, 122, 79, 0.1);
+    color: #2d7a4f;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.account-detail__toggle:hover {
+    background: rgba(45, 122, 79, 0.18);
+    transform: translateY(-1px);
+}
+
+.account-detail__toggle--active {
     background: #2d7a4f;
     color: #ffffff;
 }
 
-.notes-content__button--delete {
-    border-color: #e74c3c;
-    color: #e74c3c;
+.account-detail__icon {
+    width: 22px;
+    height: 22px;
+    fill: currentColor;
 }
 
-.notes-content__button--delete:hover {
-    background: #e74c3c;
-    color: #ffffff;
-}
-
-.notes-content__body {
-    font-size: 1rem;
-    color: #2c3e50;
-    line-height: 1.8;
-}
-
-.notes-content__body p {
-    margin-bottom: 1rem;
-}
-
-.notes-content__footer {
+.account-actions {
     display: flex;
-    gap: 2rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid #e9ecef;
+    justify-content: flex-start;
+    padding-top: 1rem;
 }
 
-.notes-content__meta {
-    font-size: 0.875rem;
-    color: #5a6c7d;
-}
-
-/* Empty State */
-.notes-content__empty {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 400px;
-    text-align: center;
-}
-
-.notes-content__empty-icon {
-    font-size: 4rem;
-    margin-bottom: 1rem;
-    opacity: 0.3;
-}
-
-.notes-content__empty-title {
-    font-family: 'Merriweather', Georgia, serif;
-    font-size: 1.5rem;
-    color: #1a2332;
-    margin-bottom: 0.5rem;
-}
-
-.notes-content__empty-text {
-    font-size: 1rem;
-    color: #5a6c7d;
-}
-
-/* ============================================
-   FORM (Edit/Create Mode)
-   ============================================ */
-
-.notes-form {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-}
-
-.notes-form__group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-
-.notes-form__label {
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: #1a2332;
-    letter-spacing: 0.3px;
-}
-
-.notes-form__input,
-.notes-form__textarea,
-.notes-form__select {
-    width: 100%;
-    padding: 0.875rem 1.125rem;
+.account-actions__button {
+    padding: 0.9rem 2.25rem;
     font-family: 'Inter', sans-serif;
-    font-size: 0.9375rem;
-    color: #2c3e50;
-    background: #f8f9fa;
-    border: 2px solid #e9ecef;
-    border-radius: 10px;
-    outline: none;
-    transition: all 0.25s ease;
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.03);
-}
-
-.notes-form__textarea {
-    resize: vertical;
-    line-height: 1.6;
-    min-height: 200px;
-}
-
-.notes-form__input::placeholder,
-.notes-form__textarea::placeholder,
-.notes-form__select::placeholder {
-    color: #95a5a6;
-}
-
-.notes-form__input:focus,
-.notes-form__textarea:focus
-.notes-form__select:focus {
-    background: #ffffff;
-    border-color: #2d7a4f;
-    box-shadow:
-    inset 0 2px 4px rgba(0, 0, 0, 0.03),
-    0 0 0 4px rgba(45, 122, 79, 0.08);
-    transform: translateY(-1px);
-}
-
-.notes-form__input:hover:not(:focus),
-.notes-form__textarea:hover:not(:focus)
-.notes-form__select:hover:not(:focus) {
-    border-color: #d1d8dd;
-}
-
-.notes-form__actions {
-    display: flex;
-    gap: 1rem;
-    margin-top: 1rem;
-}
-
-.notes-form__button {
-    padding: 0.9375rem 2rem;
-    font-family: 'Inter', sans-serif;
-    font-size: 0.9375rem;
+    font-size: 0.95rem;
     font-weight: 600;
     border: none;
     border-radius: 10px;
-    cursor: pointer;
-    transition: all 0.25s ease;
-    letter-spacing: 0.3px;
-}
-
-.notes-form__button--save {
     color: #ffffff;
     background: linear-gradient(135deg, #2d7a4f 0%, #25633f 100%);
+    cursor: pointer;
     box-shadow:
     0 4px 12px rgba(45, 122, 79, 0.25),
     0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.25s ease;
 }
 
-.notes-form__button--save:hover {
+.account-actions__button:hover {
     background: linear-gradient(135deg, #25633f 0%, #1d4d31 100%);
     transform: translateY(-2px);
     box-shadow:
@@ -551,209 +177,40 @@ body {
     0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
-.notes-form__button--save:active {
+.account-actions__button:active {
     transform: translateY(0);
 }
 
-.notes-form__button--cancel {
-    color: #2c3e50;
-    background: #ffffff;
-    border: 2px solid #e9ecef;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
-}
-
-.notes-form__button--cancel:hover {
-    background: #f8f9fa;
-    border-color: #d1d8dd;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
-}
-
-/* ============================================
-   MODAL
-   ============================================ */
-
-.modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
-}
-
-.modal--visible {
-    opacity: 1;
-    visibility: visible;
-}
-
-.modal__overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(4px);
-}
-
-.modal__content {
-    position: relative;
-    background: #ffffff;
-    border-radius: 16px;
-    padding: 2.5rem;
-    width: 90%;
-    max-width: 600px;
-    max-height: 90vh;
-    overflow-y: auto;
-    box-shadow:
-    0 20px 60px rgba(0, 0, 0, 0.3),
-    0 8px 20px rgba(0, 0, 0, 0.2);
-    transform: translateY(-30px) scale(0.95);
-    transition: transform 0.3s ease;
-}
-
-.modal__content::-webkit-scrollbar {
-    width: 6px;
-}
-
-.modal__content::-webkit-scrollbar-track {
-    background: #f8f9fa;
-    border-radius: 3px;
-}
-
-.modal__content::-webkit-scrollbar-thumb {
-    background: #d1d8dd;
-    border-radius: 3px;
-}
-
-.modal__content::-webkit-scrollbar-thumb:hover {
-    background: #2d7a4f;
-}
-
-.modal__header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 2rem;
-    padding-bottom: 1rem;
-    border-bottom: 2px solid #e9ecef;
-}
-
-.modal__title {
-    font-family: 'Merriweather', Georgia, serif;
-    font-size: 1.75rem;
-    font-weight: 700;
-    color: #1a2332;
-    letter-spacing: -0.3px;
-}
-
-.modal__close {
-    width: 36px;
-    height: 36px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #f8f9fa;
-    border: none;
-    border-radius: 8px;
-    font-size: 1.5rem;
-    line-height: 1;
-    color: #5a6c7d;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    flex-shrink: 0;
-}
-
-.modal__close:hover {
-    background: #e9ecef;
-    color: #2c3e50;
-    transform: rotate(90deg);
-}
-
-.modal__close:active {
-    transform: rotate(90deg) scale(0.95);
-}
-
-body.modal-open {
-    overflow: hidden;
-}
-
-/* ============================================
-   АДАПТИВНОСТЬ
-   ============================================ */
-
-@media (max-width: 1024px) {
-    .notes-container {
-        grid-template-columns: 280px 1fr;
-        gap: 1.5rem;
-    }
-
-    .notes-content {
+@media (max-width: 768px) {
+    .account-card {
         padding: 2rem;
     }
-}
 
-@media (max-width: 768px) {
-    .header-container {
+    .account-card__header {
         flex-direction: column;
-        align-items: stretch;
-        gap: 1rem;
+        align-items: flex-start;
     }
 
-    .header-container__left-menu,
-    .header-container__right-menu {
-        justify-content: center;
+    .account-actions {
+        justify-content: stretch;
     }
 
-    .header-container__title {
-        text-align: center;
-    }
-
-    .notes-container {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-    }
-
-    .notes-sidebar {
-        position: static;
-        max-height: 300px;
-    }
-
-    .notes-sidebar__list {
-        max-height: 200px;
+    .account-actions__button {
+        width: 100%;
     }
 }
 
 @media (max-width: 480px) {
-    .container {
-        padding: 0 1rem;
-    }
-
-    .notes-content {
+    .account-card {
         padding: 1.5rem;
     }
 
-    .notes-content__header {
+    .account-detail__password {
         flex-direction: column;
         align-items: stretch;
     }
 
-    .notes-content__actions {
-        justify-content: flex-start;
-    }
-
-    .notes-form__actions {
-        flex-direction: column;
-    }
-
-    .modal__content {
-        padding: 1.5rem;
+    .account-detail__toggle {
+        width: 100%;
     }
 }

@@ -59,7 +59,7 @@ public class LoginPage {
     }
 
     public void waitForRedirect() {
-        wait.until(ExpectedConditions.urlContains("/account"));
+        wait.until(ExpectedConditions.urlContains("/home"));
     }
 
     public String getCurrentUrl() {

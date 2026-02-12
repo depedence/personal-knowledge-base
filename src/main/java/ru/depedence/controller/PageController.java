@@ -8,7 +8,7 @@ public class PageController {
 
     @GetMapping("/")
     public String home() {
-        return "redirect:/account";
+        return "redirect:/home";
     }
 
     @GetMapping("/login")
@@ -19,6 +19,11 @@ public class PageController {
     @GetMapping("/registration")
     public String registration() {
         return "registration-page";
+    }
+
+    @GetMapping("/home")
+    public String notesHome() {
+        return "home-page";
     }
 
     @GetMapping("/account")

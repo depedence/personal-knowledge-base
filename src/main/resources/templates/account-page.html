@@ -2,20 +2,19 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>PKB Home Page</title>
+  <title>PKB Account Page</title>
   <link href="/css/account-page.css" rel="stylesheet">
 </head>
 <body>
 <div class="page-wrapper">
 
-  <!-- HEADER -->
   <div class="header-wrapper">
     <div class="container">
       <div class="header-container">
 
         <div class="header-container__left-menu">
           <div class="header-container__controls">
-            <a href="/" class="header-container__controls-link">Home</a>
+            <a href="/home" class="header-container__controls-link">Home</a>
           </div>
           <div class="header-container__controls">
             <a href="/account" class="header-container__controls-link">Account</a>
@@ -37,197 +36,55 @@
     </div>
   </div>
 
-  <!-- MAIN CONTENT -->
-  <div class="main-page">
+  <div class="main-page account-page">
     <div class="container">
-
-      <div class="notes-container">
-
-        <!-- SIDEBAR: список заметок -->
-        <div class="notes-sidebar">
-
-          <div class="notes-sidebar__header">
-            <button class="notes-sidebar__add-button" id="newNoteButton">+ New Note</button>
-            <div class="notes-sidebar__filter">
-              <label class="notes-sidebar__filter-label" for="notesCategoryFilter">Category</label>
-              <select class="notes-form__select notes-sidebar__filter-select" id="notesCategoryFilter">
-                <option value="ALL">All notes</option>
-                <option value="WORK">Work</option>
-                <option value="PERSONAL">Personal</option>
-                <option value="NOTE">Note</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="notes-sidebar__list" id="notesList">
-
-            <!-- Заметки будут добавляться сюда динамически -->
-            <!-- Пример статической заметки для стилей: -->
-            <div class="notes-sidebar__item notes-sidebar__item--active" data-note-id="1">
-              <h4 class="notes-sidebar__item-title">Моя первая заметка</h4>
-              <span class="notes-sidebar__item-date">19.01.2026</span>
-            </div>
-
-            <div class="notes-sidebar__item" data-note-id="2">
-              <h4 class="notes-sidebar__item-title">Список покупок</h4>
-              <span class="notes-sidebar__item-date">18.01.2026</span>
-            </div>
-
-            <div class="notes-sidebar__item" data-note-id="3">
-              <h4 class="notes-sidebar__item-title">Идеи для проекта</h4>
-              <span class="notes-sidebar__item-date">17.01.2026</span>
-            </div>
-
+      <div class="account-card">
+        <div class="account-card__header">
+          <div class="account-avatar" aria-hidden="true">U</div>
+          <div class="account-card__title-group">
+            <h1 class="account-card__title">Account</h1>
+            <p class="account-card__subtitle">Your profile details</p>
+            <span class="account-card__meta" id="accountUserId">ID: ...</span>
           </div>
         </div>
 
-        <!-- CONTENT: просмотр/редактирование заметки -->
-        <div class="notes-content">
-
-          <!-- Режим просмотра -->
-          <div class="notes-content__view" id="noteView">
-
-            <div class="notes-content__header">
-              <div class="notes-content__title-wrap">
-                <h1 class="notes-content_-title" id="noteTitle">Моя первая заметка</h1>
-                <span class="notes-content__category" id="noteCategory">Personal</span>
-              </div>
-
-              <div class="notes-content__actions">
-                <button class="notes-content__button notes-content__button--edit" id="editNoteButton">Edit</button>
-                <button class="notes-content__button notes-content__button--delete" id="deleteNoteButton">Delete</button>
-              </div>
-            </div>
-
-            <div class="notes-content__body" id="noteBody">
-              <p>Это содержимое моей первой заметки. Здесь может быть любой текст...</p>
-              <p>Может быть много строчек</p>
-            </div>
-
-            <div class="notes-content__footer">
-              <span class="notes-content__meta" id="noteCreated">Created: 19.01.2026</span>
-              <span class="notes-content__meta" id="noteUpdated">Updated: 19.01.2026</span>
-            </div>
-
+        <div class="account-details">
+          <div class="account-detail">
+            <span class="account-detail__label">Username</span>
+            <span class="account-detail__value" id="accountUsername">username_placeholder</span>
+            <span class="account-detail__hint">Username — подтягивается</span>
           </div>
 
-          <!-- Режим редактирования (скрыт по умолчанию) -->
-          <div class="notes-content__edit" id="noteEdit" style="display: none;">
-
-            <form class="notes-form" id="noteForm">
-
-              <div class="notes-form__group">
-                <label class="notes-form__label" for="noteTitleInput">Title</label>
-                <input
-                        type="text"
-                        class="notes-form__input"
-                        id="noteTitleInput"
-                        name="title"
-                        placeholder="Enter note title"
-                        required
-                >
-              </div>
-
-              <div class="notes-form__group">
-                <label class="notes-form__label" for="noteContentInput">Content</label>
-                <textarea
-                        class="notes-form__textarea"
-                        id="noteContentInput"
-                        name="content"
-                        rows="15"
-                        placeholder="Write your note here..."
-                        required
-                ></textarea>
-              </div>
-
-              <div class="notes-form__group">
-                <label class="notes-form__label" for="noteCategoryInput">Category</label>
-                <select class="notes-form__select" id="noteCategoryInput" name="category" required>
-                  <option value="PERSONAL">Personal</option>
-                  <option value="WORK">Work</option>
-                  <option value="NOTE">Note</option>
-                </select>
-              </div>
-
-              <div class="notes-form__actions">
-                <button type="submit" class="notes-form__button notes-form__button--save" id="saveNoteButton">Save</button>
-                <button type="button" class="notes-form__button notes-form__button--cancel" id="cancelEditButton">Cancel</button>
-              </div>
-
-            </form>
-
+          <div class="account-detail account-detail--password">
+            <span class="account-detail__label">Password</span>
+            <div class="account-detail__password">
+              <input
+                      class="account-detail__input"
+                      id="accountPassword"
+                      type="password"
+                      value="password_placeholder"
+                      readonly
+              >
+              <button
+                      class="account-detail__toggle"
+                      id="togglePassword"
+                      type="button"
+                      aria-label="Show password"
+              >
+                <svg class="account-detail__icon" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M12 5c-4.8 0-8.9 2.9-11 7 2.1 4.1 6.2 7 11 7s8.9-2.9 11-7c-2.1-4.1-6.2-7-11-7zm0 11a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm0-6.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5z"/>
+                </svg>
+              </button>
+            </div>
+            <span class="account-detail__hint">Password — подтягивается (хэш)</span>
           </div>
-
-          <!-- Пустое состояние (когда нет заметок) -->
-          <div class="notes-content__empty" id="noteEmpty" style="display: none;">
-            <div class="notes-content__empty-icon">📝</div>
-            <h3 class="notes-content__empty-title">No note selected</h3>
-            <p class="notes-content__empty-text">Select a note from the sidebar or create a new one</p>
-          </div>
-
         </div>
 
+        <div class="account-actions">
+          <button class="account-actions__button" type="button">Edit data</button>
+        </div>
       </div>
-
     </div>
-  </div>
-
-</div>
-
-<!-- MODAL: создание новой заметки -->
-<div class="modal" id="createNoteModal">
-
-  <div class="modal__overlay" id="modalOverlay"></div>
-
-  <div class="modal__content">
-
-    <div class="modal__header">
-      <h2 class="modal__title">New Note</h2>
-      <button type="button" class="modal__close" id="closeModalButton">&times;</button>
-    </div>
-
-    <form class="notes-form" id="createNoteForm">
-
-      <div class="notes-form__group">
-        <label class="notes-form__label" for="createNoteTitleInput">Title</label>
-        <input
-                type="text"
-                class="notes-form__input"
-                id="createNoteTitleInput"
-                name="title"
-                placeholder="Enter note title"
-                required
-        >
-      </div>
-
-      <div class="notes-form__group">
-        <label class="notes-form__label" for="createNoteContentInput">Content</label>
-        <textarea
-                class="notes-form__textarea"
-                id="createNoteContentInput"
-                name="content"
-                rows="10"
-                placeholder="Write your note here..."
-                required
-        ></textarea>
-      </div>
-
-      <div class="notes-form__group">
-        <label class="notes-form__label" for="createNoteCategoryInput">Category</label>
-        <select class="notes-form__select" id="createNoteCategoryInput" name="category" required>
-          <option value="PERSONAL">Personal</option>
-          <option value="WORK">Work</option>
-          <option value="NOTE">Note</option>
-        </select>
-      </div>
-
-      <div class="notes-form__actions">
-        <button type="submit" class="notes-form__button notes-form__button--save" id="createNoteButton">Create</button>
-        <button type="button" class="notes-form__button notes-form__button--cancel" id="cancelCreateButton">Cancel</button>
-      </div>
-
-    </form>
-
   </div>
 
 </div>
