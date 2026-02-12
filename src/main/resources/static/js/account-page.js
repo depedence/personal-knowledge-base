@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         passwordInput.value = user.password || '';
 
         if (headerUsername) {
-            headerUsername.textContent = user.username || 'Username';
+            headerUsername.textContent = user.username || '';
         }
     } catch (error) {
         console.error('Failed to load user data:', error);
