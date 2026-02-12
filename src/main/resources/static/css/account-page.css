@@ -8,7 +8,7 @@
 .account-card {
     width: 100%;
     max-width: 720px;
-    background: #ffffff;
+    background: var(--surface);
     border-radius: 18px;
     padding: 2.5rem 3rem;
     box-shadow:
@@ -21,7 +21,7 @@
     align-items: center;
     gap: 1.5rem;
     padding-bottom: 1.5rem;
-    border-bottom: 2px solid #e9ecef;
+    border-bottom: 2px solid var(--border);
 }
 
 .account-avatar {
@@ -29,7 +29,7 @@
     height: 72px;
     border-radius: 50%;
     background: linear-gradient(135deg, #2d7a4f 0%, #25633f 100%);
-    color: #ffffff;
+    color: var(--surface);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -49,18 +49,18 @@
     font-family: 'Merriweather', Georgia, serif;
     font-size: 2rem;
     font-weight: 700;
-    color: #1a2332;
+    color: var(--text-strong);
     letter-spacing: -0.4px;
 }
 
 .account-card__subtitle {
     font-size: 0.95rem;
-    color: #5a6c7d;
+    color: var(--text-muted);
 }
 
 .account-card__meta {
     font-size: 0.85rem;
-    color: #8a97a5;
+    color: var(--text-soft);
 }
 
 .account-details {
@@ -77,7 +77,7 @@
 .account-detail__label {
     font-size: 0.85rem;
     font-weight: 600;
-    color: #5a6c7d;
+    color: var(--text-muted);
     letter-spacing: 0.3px;
     text-transform: uppercase;
 }
@@ -85,7 +85,7 @@
 .account-detail__value {
     font-size: 1.05rem;
     font-weight: 600;
-    color: #1a2332;
+    color: var(--text-strong);
 }
 
 .account-detail__row {
@@ -107,10 +107,10 @@
     padding: 0.85rem 1rem;
     font-family: 'Inter', sans-serif;
     font-size: 1rem;
-    background: #f8f9fa;
-    border: 2px solid #e9ecef;
+    background: var(--surface-muted);
+    border: 2px solid var(--border);
     border-radius: 10px;
-    color: #2c3e50;
+    color: var(--text);
     letter-spacing: 0.6px;
 }
 
@@ -141,7 +141,7 @@
 
 .account-detail__toggle--active {
     background: #2d7a4f;
-    color: #ffffff;
+    color: var(--surface);
 }
 
 .account-detail__icon {
@@ -157,7 +157,7 @@
     font-weight: 600;
     border: 2px solid rgba(45, 122, 79, 0.2);
     border-radius: 10px;
-    background: #ffffff;
+    background: var(--surface);
     color: #2d7a4f;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -181,7 +181,7 @@
 }
 
 .account-modal__button--cancel {
-    background: #ffffff;
+    background: var(--button-neutral-bg);
     border: 2px solid #e74c3c;
     color: #e74c3c;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
